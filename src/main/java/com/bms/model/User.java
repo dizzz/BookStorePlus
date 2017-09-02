@@ -11,6 +11,10 @@ public class User {
     private String address;
     private String name;
     public User(){}
+    public User(String username,String password){
+        this.username = username;
+        this.passwordComfirm = this.password = password;
+    }
     public User(User user){
         this.username = user.getUsername();
         this.password = user.getPassword();
@@ -31,7 +35,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
     public String getPasswordComfirm() {
         return passwordComfirm;
     }

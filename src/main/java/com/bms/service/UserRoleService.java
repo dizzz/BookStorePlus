@@ -27,6 +27,7 @@ public class UserRoleService {
     }
 
     public List<UserRole> quaryWithUserName(String userName){
+        System.out.println("sb:" + userName);
         return userRoleMapper.queryRoleWithUserName(userName);
     }
     public void autologin(String username, String password) {
