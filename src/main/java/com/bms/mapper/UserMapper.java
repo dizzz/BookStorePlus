@@ -38,4 +38,9 @@ public interface UserMapper{
             "values (#{username}, #{password},#{email},#{address},#{name},#{telephone})")
     void insert(@Param("username") String userName, @Param("password") String password, @Param("address") String address,
                 @Param("email") String email, @Param("name") String name, @Param("telephone") String telephone);
+    //删除用户
+    @Delete("delete from user where username = #{username}")
+    void deleteUser(@Param("username") String username);
+//    TODO
+//    admin不能删admin
 }

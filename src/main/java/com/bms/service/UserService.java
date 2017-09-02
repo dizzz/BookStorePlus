@@ -31,4 +31,7 @@ public class UserService {
     public void save(User user){
         userMapper.insert(user.getName(),user.getPassword(),user.getAddress(),user.getEmail(),user.getName(),user.getTelephone());
     }
+    public void deleteByName(String username) {
+        userMapper.deleteUser(username);
+    }
 }

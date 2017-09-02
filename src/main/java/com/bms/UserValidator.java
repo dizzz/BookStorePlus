@@ -21,7 +21,6 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         User user = (User) o;
-        System.out.print("vsb");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
         if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
             errors.rejectValue("username","error.user","Please use between 6 and 32 characters.");
@@ -38,5 +37,6 @@ public class UserValidator implements Validator {
         if (!user.getPasswordComfirm().equals(user.getPassword())) {
             errors.rejectValue("passwordComfirm", "error.user","These passwords don't match.");
         }
+        //TODO
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 
 public class MyUserDetails extends User implements UserDetails{
 
+
     private List<UserRole> roles;
     public List<UserRole> getRoles() {
         return roles;

@@ -1,6 +1,6 @@
 package com.bms;
 
-import com.bms.auth.MyAuthenticationProvider;
+import com.bms.MyAuthenticationProvider;
 import com.bms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -20,11 +20,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private MyAuthenticationProvider provider;//自定义验证
-
-    @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

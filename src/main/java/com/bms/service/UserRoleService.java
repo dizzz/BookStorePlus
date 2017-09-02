@@ -27,7 +27,6 @@ public class UserRoleService {
     }
 
     public List<UserRole> quaryWithUserName(String userName){
-        System.out.println("sb:" + userName);
         return userRoleMapper.queryRoleWithUserName(userName);
     }
     public void autologin(String username, String password) {
@@ -38,7 +37,6 @@ public class UserRoleService {
 
         if (usernamePasswordAuthenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-//            logger.debug(String.format("Auto login %s successfully!", username));
         }
     }
 }
