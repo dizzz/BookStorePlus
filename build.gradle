@@ -1,0 +1,57 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.6.RELEASE'
+	}
+	repositories {
+		maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+		mavenCentral()
+
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'war'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+	mavenCentral()
+}
+
+configurations {
+	providedRuntime
+}
+
+dependencies {
+//web
+	compile('org.springframework.boot:spring-boot-starter-web')
+//	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile("org.thymeleaf:thymeleaf:3.0.7.RELEASE")
+	compile("org.thymeleaf:thymeleaf-spring4:3.0.7.RELEASE")
+	compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.2.2")
+    compile("org.springframework.boot:spring-boot-starter-security")
+//database
+	compile('org.springframework.boot:spring-boot-starter-jdbc')
+	compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1")
+
+	compile('commons-dbcp:commons-dbcp')
+	runtime('mysql:mysql-connector-java')
+//tool
+	compile("org.springframework.boot:spring-boot-devtools")
+//server
+	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+
+//test
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+bootRun {
+	addResources = true
+}
