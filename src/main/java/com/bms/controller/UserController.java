@@ -54,7 +54,7 @@ public class UserController {
 //TODO            错误信息
         }else {
             userService.save(user);
-            userRoleService.autologin(user.getUsername(), user.getPasswordComfirm());
+            userRoleService.autologin(user.getLoginId(), user.getPwdComfirm());
             modelAndView.setViewName("main");
         }
         return modelAndView;

@@ -22,7 +22,7 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         User user = (User) o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-        if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
+        if (user.getLoginId().length() < 6 || user.getLoginId().length() > 32) {
             errors.rejectValue("username","error.user","Please use between 6 and 32 characters.");
         }
         if (userService.quaryWithUserName(user.getUsername()) != null) {

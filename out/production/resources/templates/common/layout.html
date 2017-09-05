@@ -1,0 +1,27 @@
+<nav th:fragment="header" class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">BookShopPlus</a>
+        </div>
+        <div th:if="${#httpServletRequest.remoteUser}" >
+            <form class="navbar-form navbar-right" th:action="@{/logout}" method="post">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">Signout</button>
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <p class="navbar-text navbar-right" th:inline="text">Signed in as [[${#httpServletRequest.remoteUser}]]</p>
+            </ul>
+        </div>
+        <div th:unless="${#httpServletRequest.remoteUser}">
+            <form class="navbar-form navbar-right">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" formaction="/login" >Sign In</button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-warning" formaction="/registration">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>

@@ -49,12 +49,12 @@ public class MyUserDetails extends User implements UserDetails{
 
     @Override
     public String getPassword() {
-        return super.getPassword();
+        return super.getLoginPwd();
     }
 
     @Override
     public String getUsername() {
-        return super.getUsername();
+        return super.getLoginId();
     }
 
     @Override

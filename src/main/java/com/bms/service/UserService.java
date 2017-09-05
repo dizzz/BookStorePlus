@@ -29,7 +29,7 @@ public class UserService {
         return userMapper.queryUserInfoWithPwd(UserName,password);
     }
     public void save(User user){
-        userMapper.insert(user.getName(),user.getPassword(),user.getAddress(),user.getEmail(),user.getName(),user.getTelephone());
+        userMapper.insert(user.getLoginId(),user.getLoginPwd(),user.getAddress(),user.getMail(),user.getName(),user.getPhone());
     }
     public void deleteByName(String username) {
         userMapper.deleteUser(username);

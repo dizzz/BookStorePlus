@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <title>show</title>
+</head>
+<body>
+<form th:action="@{/admin/addbook}" method="get">
+    <button class="btn btn-md btn-block" type="Submit">Add a Book</button>
+</form>
+<form action="" method="get" th:if="${not #lists.isEmpty(books)}">
+    <table class="table table-striped table-responsive">
+        <tr>
+            <td>title</td>
+            <td>author</td>
+            <td>publishhouse</td>
+            <td>publishdate</td>
+            <td>price</td>
+            <td></td>
+
+        </tr>
+        <tr th:each="book:${books}">
+            <td><span th:text="${book.title}"></span></td>
+            <td><span th:text="${book.author}"></span></td>
+            <td><span th:text="${book.publishHouse}"></span></td>
+            <td><span th:text="${book.publishDate}"></span></td>
+            <td><span th:text="${book.price}"></span></td>
+            <td><span><a th:href="@{/admin/userbook(id=${book.title})}">详细</a></span> </td>
+            <td><span><a th:href="@{/admin/delbook(id=${book.title})}">删除</a></span> </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

@@ -3,60 +3,57 @@ package com.bms.model;
 public class User {
 
 
-    private String username;
-    private String password;
-    private String passwordComfirm;
-    private String telephone;
-    private String email;
-    private String address;
+    private String loginId;
+    private String loginPwd;
+    private String pwdComfirm;
     private String name;
+    private String address;
+    private String phone;
+    private String mail;
+    private String birthday;
+    private String getRegisterIp;
+    private String registerTime;
     public User(){}
-    public User(String username,String password){
-        this.username = username;
-        this.passwordComfirm = this.password = password;
+    public User(String loginId,String loginPwd){
+        this.loginId = loginId;
+        this.pwdComfirm = this.loginPwd = loginPwd;
     }
     public User(User user){
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.passwordComfirm = user.getPasswordComfirm();
-    }
-    public String getUsername() {
-        return username;
+        this.loginId = user.getLoginId();
+        this.loginPwd = user.getLoginPwd();
+        this.pwdComfirm = user.getPwdComfirm();
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getLoginId() {
+        return loginId;
     }
 
-    public String getPassword() {
-        return password;
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public String getPasswordComfirm() {
-        return passwordComfirm;
+    public String getLoginPwd() {
+        return loginPwd;
     }
 
-    public void setPasswordComfirm(String passwordComfirm) {
-        this.passwordComfirm = passwordComfirm;
+    public void setLoginPwd(String loginPwd) {
+        this.loginPwd = loginPwd;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getPwdComfirm() {
+        return pwdComfirm;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setPwdComfirm(String pwdComfirm) {
+        this.pwdComfirm = pwdComfirm;
     }
 
-    public String getEmail() {
-        return email;
+    public String getName() {
+        return name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -67,11 +64,43 @@ public class User {
         this.address = address;
     }
 
-    public String getName() {
-        return name;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getGetRegisterIp() {
+        return getRegisterIp;
+    }
+
+    public void setGetRegisterIp(String getRegisterIp) {
+        this.getRegisterIp = getRegisterIp;
+    }
+
+    public String getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(String registerTime) {
+        this.registerTime = registerTime;
     }
 }
