@@ -4,7 +4,7 @@ import ch.qos.logback.classic.pattern.SyslogStartConverter;
 import com.bms.model.MyUserDetails;
 import com.bms.model.User;
 import com.bms.service.MyUserDetailsService;
-import com.bms.service.UserRoleService;
+//import com.bms.service.UserRoleService;
 import com.bms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -21,11 +21,12 @@ import java.util.Iterator;
 
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
-
+//    @Autowired
+//    private UserService userService;
     @Autowired
     private MyUserDetailsService userService;
-    @Autowired
-    private UserRoleService userRoleService;
+//    @Autowired
+//    private UserRoleService userRoleService;
     /**
      * 自定义验证方式
      */
@@ -34,19 +35,17 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
         MyUserDetails user;
-
         try{
             user = (MyUserDetails) userService.loadUserByUsername(username);
         }catch (UsernameNotFoundException e){
             throw new BadCredentialsException("Username not found.");
         }
-        if (!password.equals(user.getPassword())) {
+        if (!password.equals(user.getLoginPwd())) {
             throw new BadCredentialsException("Wrong password.");
         }
-
-        user.setRoles(userRoleService.quaryWithUserName(username));
+//        user.setRoles(userRoleService.quaryWithUserName(username));
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-        return new UsernamePasswordAuthenticationToken(user, password, authorities);
+        return new UsernamePasswordAuthenticationToken(user, password,authorities);
     }
     
     @Override

@@ -9,15 +9,15 @@
 <body>
 <dl class="dl-horizontal" th:object="${user}">
     <dt>username</dt>
-    <dd><span th:text="${user.username}"></span></dd>
+    <dd><span th:text="${user.loginId}"></span></dd>
     <dt>address</dt>
     <dd><span th:text="${user.address}"></span></dd>
     <dt>name</dt>
     <dd><span th:text="${user.name}"></span></dd>
     <dt>email</dt>
-    <dd><span th:text="${user.email}"></span></dd>
+    <dd><span th:text="${user.mail}"></span></dd>
     <dt>telephone</dt>
-    <dd><span th:text="${user.telephone}"></span></dd>
+    <dd><span th:text="${user.phone}"></span></dd>
 </dl>
 </body>
 </html>

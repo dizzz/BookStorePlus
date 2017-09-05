@@ -3,17 +3,23 @@ package com.bms.mapper;
 import com.bms.model.Book;
 import com.bms.model.User;
 import org.apache.ibatis.annotations.*;
+import org.springframework.security.access.method.P;
 
 import java.util.List;
 @Mapper
 public interface BookMapper {
-    @Select("select * from book")
+    @Select("select * from BookView")
     @Results(value={
-            @Result(id=true, column="title", property="title"),
-            @Result(column="author", property="author"),
-            @Result(column="publishhouse", property="publishHouse"),
-            @Result(column="publishdate", property="publishDate"),
-            @Result(column="price", property="price")
+            @Result(id=true, column="Id", property="id"),
+            @Result(column="Title", property="title"),
+            @Result(column="Author", property="author"),
+            @Result(column="PublishDate", property="publishDate"),
+            @Result(column="ISBN", property="ISBN"),
+            @Result(column="Price", property="price"),
+            @Result(column="Description", property="description"),
+            @Result(column="TOC", property="TOC"),
+            @Result(column="Clicks", property="clicks"),
+            @Result(column="PublishHouse", property="publishHouse")
     })
     List<Book> queryAll();
 

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-      xmlns:form="http://www.w3.org/1999/xhtml">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta content="text/html;charset=UTF-8"/>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <title>show</title>
+    <title>registration</title>
 </head>
 <body>
+
+
+
 <form th:action="@{/}" method="get">
     <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
 </form>
@@ -22,10 +23,10 @@
                 <h2>Registration Form</h2>
                 <div class="form-group">
                     <div class="col-sm-9">
-                        <label>username</label>
-                        <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                        <label>LoginId</label>
+                        <label th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}"
                                class="validation-message"></label>
-                        <input type="text" th:field="*{username}" placeholder="username"
+                        <input type="text" th:field="*{loginId}" placeholder="LoginId"
                                class="form-control" />
                     </div>
                 </div>
@@ -33,9 +34,9 @@
                 <div class="form-group">
                     <div class="col-sm-9">
                         <label>password</label>
-                        <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                        <label th:if="${#fields.hasErrors('loginPwd')}" th:errors="*{loginPwd}"
                                class="validation-message"></label>
-                        <input type="text" th:field="*{password}"
+                        <input type="text" th:field="*{loginPwd}"
                                placeholder="password" class="form-control" />
                     </div>
                 </div>
@@ -43,9 +44,9 @@
                 <div class="form-group">
                     <div class="col-sm-9">
                         <label>passwordComfirm</label>
-                        <label th:if="${#fields.hasErrors('passwordComfirm')}" th:errors="*{passwordComfirm}"
+                            <label th:if="${#fields.hasErrors('pwdComfirm')}" th:errors="*{pwdComfirm}"
                                class="validation-message"></label>
-                        <input type="text" th:field="*{passwordComfirm}"
+                        <input type="text" th:field="*{pwdComfirm}"
                                placeholder="Comfirm Your Password" class="form-control" />
                     </div>
                 </div>
@@ -62,9 +63,9 @@
                 <div class="form-group">
                     <div class="col-sm-9">
                         <label>email</label>
-                        <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                        <label th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
                                class="validation-message"></label>
-                        <input type="text" th:field="*{email}" placeholder="Email"
+                        <input type="text" th:field="*{mail}" placeholder="Email"
                                class="form-control" />
                     </div>
                 </div>
@@ -80,27 +81,48 @@
                 <div class="form-group">
                     <div class="col-sm-9">
                         <label>telephone</label>
-                        <label th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"
+                        <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"
                                class="validation-message"></label>
-                        <input type="text" th:field="*{telephone}" placeholder="telephone"
+                        <input type="text" th:field="*{phone}" placeholder="telephone"
                                class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <label>Birthday</label>
+                        <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <input class="form-control" size="16" type="text" th:field="*{birthday}" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+
+                        <input type="hidden" id="date" value="" /><br/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-9">
-                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                               class="validation-message"></label>
                         <button type="submit" class="btn btn-primary btn-block">Register User</button>
                     </div>
                 </div>
-
-
-
-
             </form>
         </div>
     </div>
 </div>
-
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/js/bootstrap-datetimepicker.trans.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
 </body>
 </html>

@@ -1,13 +1,25 @@
 package com.bms.model;
 
 public class Book {
+    private Integer id;
     private String title;
     private String author;
     private String publishHouse;
     private String publishDate;
     private String ISBN;
     private String description;
-    private double price;
+    private String TOC;
+    private Double price;
+    private Integer clicks;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -40,11 +52,43 @@ public class Book {
         this.publishDate = publishDate;
     }
 
-    public double getPrice() {
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTOC() {
+        return TOC;
+    }
+
+    public void setTOC(String TOC) {
+        this.TOC = TOC;
+    }
+
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Integer getClicks() {
+        return clicks;
+    }
+
+    public void setClicks(Integer clicks) {
+        this.clicks = clicks;
     }
 }

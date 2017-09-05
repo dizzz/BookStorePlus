@@ -16,25 +16,24 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserRoleService userRoleService;
+//    @Autowired
+//    private UserRoleService userRoleService;
     @Autowired
     private BookService bookService;
     @RequestMapping("/show")
     public String show(Model model){
         model.addAttribute("users",userService.quaryAll());
-        model.addAttribute("userRoles", userRoleService.quaryAll());
+//        model.addAttribute("userRoles", userRoleService.quaryAll());
         return "admin/show";
     }
     @RequestMapping("/usermanage")
     public String usermanage(Model model){
         model.addAttribute("users",userService.quaryAll());
-        model.addAttribute("userRoles", userRoleService.quaryAll());
         return "admin/usermanage";
     }
     @RequestMapping("/deluser")
     public String deluser(HttpServletRequest request){
-        userService.deleteByName(request.getParameter("id"));
+        userService.deleteById(request.getParameter("id"));
         return "redirect:/admin/usermanage";
     }
     @RequestMapping("/userdetail")
@@ -46,7 +45,7 @@ public class AdminController {
     }
     @RequestMapping("/bookmanage")
     public String bookmanage(Model model){
-        model.addAttribute("books",bookService.quaryAll());
+        model.addAttribute("books",bookService.quary(10,10));
         return "admin/bookmanage";
     }
     @RequestMapping(value = "/addbook",method = RequestMethod.GET)

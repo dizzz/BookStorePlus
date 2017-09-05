@@ -21,21 +21,21 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         User user = (User) o;
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "loginId", "NotEmpty");
         if (user.getLoginId().length() < 6 || user.getLoginId().length() > 32) {
-            errors.rejectValue("username","error.user","Please use between 6 and 32 characters.");
+            errors.rejectValue("loginId","error.user","Please use between 6 and 32 characters.");
         }
-        if (userService.quaryWithUserName(user.getUsername()) != null) {
-            errors.rejectValue("username","error.user","Someone already has that username.");
+        if (userService.quaryWithUserName(user.getLoginId()) != null) {
+            errors.rejectValue("loginId","error.user","Someone already has that username.");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
-            errors.rejectValue("password","error.user","Try one with at least 8 characters.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "loginPwd", "NotEmpty");
+        if (user.getLoginPwd().length() < 8 || user.getLoginPwd().length() > 32) {
+            errors.rejectValue("loginPwd","error.user","Try one with at least 8 characters.");
 
         }
-        if (!user.getPasswordComfirm().equals(user.getPassword())) {
-            errors.rejectValue("passwordComfirm", "error.user","These passwords don't match.");
+        if (!user.getPwdComfirm().equals(user.getLoginPwd())) {
+            errors.rejectValue("pwdComfirm", "error.user","These passwords don't match.");
         }
         //TODO
     }
