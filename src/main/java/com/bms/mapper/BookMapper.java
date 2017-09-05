@@ -22,5 +22,7 @@ public interface BookMapper {
             "values (#{title}, #{author},#{publishhouse},#{publishdate},#{price})")
     void insert(@Param("title") String title, @Param("author") String author, @Param("publishhouse") String publishHouse,
                 @Param("publishdate") String publishDate, @Param("price") double price);
-    //删除用户
+
+    @Delete("delete from book where title = #{title}")
+    void delete(@Param("title") String title);
 }

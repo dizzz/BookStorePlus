@@ -26,16 +26,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/","/main").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
+                .antMatchers("/admin/**").hasAuthority("管理员").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/hello")
+                .defaultSuccessUrl("/main")
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").and().exceptionHandling()
+                .logoutSuccessUrl("/main").and().exceptionHandling()
                 .accessDeniedPage("/access-denied");
     }
 
@@ -46,3 +46,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 }
+//TODO
+//验证码
+//自动登录

@@ -1,18 +1,15 @@
+
 package com.bms.controller;
 import com.bms.model.Book;
-import com.bms.model.User;
 import com.bms.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -57,11 +54,17 @@ public class AdminController {
         model.addAttribute("book",new Book());
         return "admin/addbook";
     }
+//    TODO
+//    不能添加已有图书，添加成功提示
     @RequestMapping(value = "/addbook",method = RequestMethod.POST)
-    public String addbook(Book book){
-        System.out.println(book.getPublishDate());
+    public String addbook(Book book,Model model){
         bookService.add(book);
-        return "admin/bookmanage";
+        return "redirect:/admin/bookmanage";
+    }
+    @RequestMapping(value = "/delbook")
+    public String delbook(HttpServletRequest request){
+        bookService.del(request.getParameter("id"));
+        return "redirect:/admin/bookmanage";
     }
 }
 //TODO model函数统一

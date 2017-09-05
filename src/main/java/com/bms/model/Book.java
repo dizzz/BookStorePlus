@@ -5,6 +5,8 @@ public class Book {
     private String author;
     private String publishHouse;
     private String publishDate;
+    private String ISBN;
+    private String description;
     private double price;
     public String getTitle() {
         return title;

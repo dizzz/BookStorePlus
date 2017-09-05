@@ -24,28 +24,18 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
 
-    @RequestMapping(value={"/","/welcome"})
-    public String welcome(Model model){
-        return "welcome";
+    @RequestMapping(value = {"/","main"})
+    public String main(){
+        return  "main";
     }
 
-//    @RequestMapping("/home")
-//    public String home(Model model){
-//        return "home";
-//    }
-    @RequestMapping("/hello")
-    public String hello(Model model){
-        return "hello";
-    }
-    @RequestMapping(value = "/index")
-    public String index (ModelMap model){
-        return  "index";
-    }
+
     @RequestMapping(value = "/login",method= RequestMethod.GET)
     public String login(Model model) {
         return "login";
     }
     //如果不事先扔一个user到页面里，会找不到该属性
+
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public ModelAndView registration(){
         ModelAndView modelAndView = new ModelAndView();
@@ -54,16 +44,18 @@ public class UserController {
         return modelAndView;
     }
     //自动捕获相应的类型
+
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         userValidator.validate(user, bindingResult);
         if(bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");
+//TODO            错误信息
         }else {
             userService.save(user);
             userRoleService.autologin(user.getUsername(), user.getPasswordComfirm());
-            modelAndView.setViewName("hello");
+            modelAndView.setViewName("main");
         }
         return modelAndView;
     }

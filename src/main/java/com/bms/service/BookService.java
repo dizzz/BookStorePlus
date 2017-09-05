@@ -18,4 +18,7 @@ public class BookService {
         bookMapper.insert(book.getTitle(),book.getAuthor(),
                 book.getPublishHouse(),book.getPublishDate(),book.getPrice());
     }
+    public void del(String title){
+        bookMapper.delete(title);
+    }
 }
