@@ -158,7 +158,6 @@ public class User {
     }
     public void setRegisterTime() {
         Date d = new Date();
-        System.out.println(d);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         this.registerTime = sdf.format(d);
     }

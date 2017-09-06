@@ -4,6 +4,7 @@ import com.bms.UserValidator;
 import com.bms.model.*;
 import com.bms.service.*;
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,13 +32,16 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
-
+    @Autowired
+    private BookService bookService;
     @RequestMapping(value = {"/","main"})
-    public String main(){
+    public String main(Model model,@RequestParam(required=true,defaultValue="1") Integer pageNum){
+        List<Book>list=bookService.quary(pageNum,10);
+        PageInfo<Book> p=new PageInfo<Book>(list);
+        model.addAttribute("page",p);
+        model.addAttribute("books",list);
         return  "main";
     }
-
-
     @RequestMapping(value = "/login",method= RequestMethod.GET)
     public String login(Model model) {
         return "login";

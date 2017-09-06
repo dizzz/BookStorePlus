@@ -25,3 +25,24 @@
         </div>
     </div>
 </nav>
+
+
+<nav th:fragment="page" aria-label="Page navigation">
+    <!--<ul  class="pagination">-->
+        <!--&lt;!&ndash; 上一页 &ndash;&gt;-->
+        <!--<li class="page-item" th:if="${page.isHasPreviousPage()}">-->
+            <!--<a class="page-link" data-th-attr="${page.previousPage}" aria-label="Previous">-->
+                <!--&lt;!&ndash;<span aria-hidden="true">«</span>&ndash;&gt;-->
+            <!--</a>-->
+        <!--</li>-->
+
+
+        <!--<li class="page-item" th:if="${page.isHasNextPage()}">-->
+            <!--<a class="page-link" data-th-attr="${page.nextPage}" aria-label="Next">-->
+                <!--&lt;!&ndash;<span aria-hidden="true">>></span>&ndash;&gt;-->
+            <!--</a>-->
+        <!--</li>-->
+    <!--</ul>-->
+    <li th:if="${page.isHasPreviousPage()}"><a th:href="@{/main(pageNum=${page.prePage})}">Previous</a></li>
+    <li th:if="${page.isHasNextPage()}"><a th:href="@{/main(pageNum =${page.nextPage})}">Next</a></li>
+</nav>

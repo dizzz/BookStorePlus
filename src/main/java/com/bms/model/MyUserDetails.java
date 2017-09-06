@@ -23,7 +23,6 @@ public class MyUserDetails extends User implements UserDetails{
             return AuthorityUtils.commaSeparatedStringToAuthorityList("");
         }
 
-        System.out.println(super.getUserRole());
         return AuthorityUtils.commaSeparatedStringToAuthorityList(super.getUserRole());
     }
 

@@ -2,6 +2,7 @@
 package com.bms.controller;
 import com.bms.model.Book;
 import com.bms.service.*;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -45,7 +47,11 @@ public class AdminController {
     }
     @RequestMapping("/bookmanage")
     public String bookmanage(Model model){
-        model.addAttribute("books",bookService.quary(10,10));
+        List<Book>list=bookService.quary(0,10);
+        PageInfo<Book> p=new PageInfo<Book>(list);
+        model.addAttribute("page",p);
+        model.addAttribute("books",bookService.quary(0,10));
+
         return "admin/bookmanage";
     }
     @RequestMapping(value = "/addbook",method = RequestMethod.GET)

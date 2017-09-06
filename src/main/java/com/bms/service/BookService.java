@@ -3,6 +3,7 @@ package com.bms.service;
 import com.bms.mapper.BookMapper;
 import com.bms.model.Book;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,8 @@ import java.util.List;
 public class BookService {
     @Autowired
     private BookMapper bookMapper;
-    public List<Book>quary(int pagesize,int pagestart){
-        PageHelper.startPage(1,20);
+    public List<Book>quary(int pagenum,int pagesize){
+        PageHelper.startPage(pagenum,pagesize);
         return bookMapper.queryAll();
     }
     public void add(Book book){

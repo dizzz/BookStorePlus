@@ -8,7 +8,40 @@
 </head>
 <body>
 <header th:replace="common/layout::header"></header>
+<div class="col-md-6">
+<form action="" method="get" th:if="${not #lists.isEmpty(books)}">
+    <table class="table table-striped table-responsive">
+        <tr>
+            <td>title</td>
+            <td>author</td>
+            <td>publishdate</td>
+            <td>ISBN</td>
+            <td>Price</td>
+            <!--<td>description</td>-->
+            <!--<td>TOC</td>-->
+            <td>clicks</td>
+            <td>publishhouse</td>
+            <td></td>
+        </tr>
+        <tr th:each="book:${books}">
+            <td><span th:text="${book.title}"></span></td>
+            <td><span th:text="${book.author}"></span></td>
+            <td><span th:text="${book.publishDate}"></span></td>
+            <td><span th:text="${book.ISBN}"></span></td>
+            <td><span th:text="${book.Price}"></span></td>
+            <!--<td><span th:text="${book.description}"></span></td>-->
+            <!--<td><span th:text="${book.TOC}"></span></td>-->
 
-非常牛逼
+            <td><span th:text="${book.clicks}"></span></td>
+            <td><span th:text="${book.publishHouse}"></span></td>
+            <!--<td><span><a th:href="@{/admin/userbook(id=${book.title})}">详细</a></span> </td>-->
+            <td><span><a th:href="@{/admin/delbook(id=${book.title})}">删除</a></span> </td>
+        </tr>
+    </table>
+
+</form>
+</div>
+    <div th:replace="common/layout::page"></div>
+
 </body>
 </html>
