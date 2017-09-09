@@ -27,9 +27,10 @@ public class BookService {
     }
     public List<Book>quaryByTag(Integer tag,int pagenum,int pagesize){
         PageHelper.startPage(pagenum,pagesize);
-        return bookMapper.queryByTag(tag);
+        return bookMapper.quaryByTag(tag);
     }
     public void addBook(Book book){
+        book.setPublisherId(quaryPublisherIdByName(book.getPublishHouse()));
         bookMapper.insert(book.getTitle(),book.getAuthor(),
                 book.getPublishHouse(),book.getPublishDate(),book.getPrice());
     }
@@ -43,5 +44,7 @@ public class BookService {
     public List<Category> quaryAllCategories(){
         return bookMapper.quaryAllCategories();
     }
-
+    public Integer quaryPublisherIdByName(String name){
+        return bookMapper.quaryPublisherIdbyName(name).getId();
+    }
 }

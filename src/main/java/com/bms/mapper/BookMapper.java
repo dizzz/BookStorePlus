@@ -2,6 +2,7 @@ package com.bms.mapper;
 
 import com.bms.model.Book;
 import com.bms.model.Category;
+import com.bms.model.Publisher;
 import com.bms.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.security.access.method.P;
@@ -53,16 +54,21 @@ public interface BookMapper {
             @Result(column="Clicks", property="clicks"),
             @Result(column="PublishHouse", property="publishHouse")
     })
-    List<Book> queryByTag(@Param("tag")Integer tag);
-
+    public List<Book>quaryByTag(@Param("tag")Integer tag);
+    @Select("select * from Publishers where Name = #{name}")
+    @Results(value = {
+            @Result(id=true,column = "Id",property = "id"),
+            @Result(column = "Name",property = "name")
+    })
+    public Publisher quaryPublisherIdbyName(@Param("name")String name);
     @Select("select * from Categories")
     @Results(value = {
             @Result(id=true,column = "Id",property = "id"),
             @Result(column = "Name",property = "name")
     })
     List<Category>quaryAllCategories();
-    @Insert("insert into book(title, author,publishhouse,publishdate,price) " +
-            "values (#{title}, #{author},#{publishhouse},#{publishdate},#{price})")
+    @Insert({"insert into Books(Title, Author,PublishId,PublishDate,ISBN,UnitPrice,ContentDescription,TOC,CategoryId) " +
+            "values (#{title}, #{author},#{publishid},#{publishdate},#{price},})")
     void insert(@Param("title") String title, @Param("author") String author, @Param("publishhouse") String publishHouse,
                 @Param("publishdate") String publishDate, @Param("price") double price);
 

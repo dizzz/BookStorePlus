@@ -5,6 +5,7 @@ public class Book {
     private String title;
     private String author;
     private String publishHouse;
+    private Integer publisherId;
     private String publishDate;
     private String ISBN;
     private String description;
@@ -13,6 +14,14 @@ public class Book {
     private Integer clicks;
     public Integer getId() {
         return id;
+    }
+
+    public Integer getPublisherId() {
+        return publisherId;
+    }
+
+    public void setPublisherId(Integer publisherId) {
+        this.publisherId = publisherId;
     }
 
     public void setId(Integer id) {

@@ -170,8 +170,8 @@
 </ul>
 
 
-<ul th:fragment="topnav" class="nav nav-pills">
-    <li role="presentation"><a href="/admin/home">Home</a></li>
-    <li role="presentation"><a href="/admin/usermanage">Usermanage</a></li>
-    <li role="presentation"><a href="/admin/bookmanage">Bookmanage</a></li>
+<ul th:fragment="topnav" class="nav nav-tabs">
+    <li role="presentation" th:classappend="${#httpServletRequest.requestURI=='/admin/home'?'active':''}"><a href="/admin/home">Home</a></li>
+    <li role="presentation" th:classappend="${#httpServletRequest.requestURI=='/admin/usermanage'?'active':''}"><a href="/admin/usermanage">Usermanage</a></li>
+    <li role="presentation" th:classappend="${#httpServletRequest.requestURI=='/admin/bookmanage'?'active':''}"><a href="/admin/bookmanage">Bookmanage</a></li>
 </ul>
