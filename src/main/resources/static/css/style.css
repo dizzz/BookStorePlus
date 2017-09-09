@@ -502,7 +502,7 @@ body #db-pay-tips {
     padding-top: 20px;
     padding-right: 30px;
     padding-left: 30px;
-    padding-bottom: 20px;
+    padding-bottom: 5px;
     
     margin-right: auto;
     margin-left: auto;
@@ -524,3 +524,165 @@ body #db-pay-tips {
   }
 
 /*-- //new_container --*/
+/*-- new_container1 --*/
+.new_container1 {
+	background: white;
+	background-clip: padding-box;
+    padding-top: 20px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 5px;
+    
+    margin-right: auto;
+    margin-left: auto;
+    /* border: solid 8px #6BC120; */
+  }
+  .new_container1 p{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1em;
+    line-height:200%;
+    text-indent:15px;
+  }
+    .new_container1 h3{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1.5em;
+    text-indent:15px;
+    color:#7E8080;
+  }
+      .new_container1 h4{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1em;
+
+    color:#7E8080;
+  }
+      .new_container1 h5{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1em;
+        text-indent:15px;
+    color:#57B940;
+    text-align:center;
+  }
+  @media (min-width: 768px) {
+    .new_container1 {
+      width: 750px;
+    }
+  }
+  @media (min-width: 992px) {
+    .new_container1 {
+      width: 700px;
+    }
+  }
+
+/*-- //new_container1 --*/
+/*-- new_container2 --*/
+.new_container2 {
+	background: white;
+	background-clip: padding-box;
+    padding-top: 20px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 5px;
+    
+    margin-right: auto;
+    margin-left: auto;
+    /* border: solid 8px #6BC120; */
+  }
+  .new_container2 p{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1em;
+    line-height:200%;
+    text-indent:15px;
+    color: #000;
+  }
+    .new_container2 p span{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1em;
+    line-height:200%;
+    text-indent:15px;
+    color: #F62D45;
+  }
+    .new_container2 h3{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1.5em;
+    text-indent:15px;
+    color:#000;
+  }
+      .new_container2 h2{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1.4em;
+
+    color:#37a;;
+  }
+      .new_container2 h6{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 2em;
+    color:#F62D45;
+  }
+      .new_container2 h5{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1em;
+        text-indent:15px;
+    color:#57B940;
+    text-align:center;
+  }
+  @media (min-width: 768px) {
+    .new_container2 {
+      width: 750px;
+    }
+  }
+  @media (min-width: 992px) {
+    .new_container2 {
+      width: 700px;
+    }
+  }
+
+/*-- //new_container --*/
+
+.little_box {
+	background: white;
+	background-clip: padding-box;
+    padding-top: 2px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 5px;
+    
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid #37a;;
+    /* border: solid 8px #6BC120; */
+  }
+  .little_box p{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1em;
+    line-height:200%;
+    text-indent:15px;
+  }
+    .little_box h3{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1.5em;
+    text-indent:15px;
+    color:#7E8080;
+  }
+      .little_box h4{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1em;
+
+    color:#7E8080;
+  }
+      .little_box h5{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1em;
+        text-indent:15px;
+    color:#57B940;
+    text-align:center;
+  }
+  @media (min-width: 768px) {
+    .little_box {
+      width: 750px;
+    }
+  }
+  @media (min-width: 992px) {
+    .little_box {
+      width: 700px;
+    }
+  }
