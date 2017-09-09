@@ -5,6 +5,7 @@ import com.bms.model.*;
 import com.bms.service.*;
 
 import com.github.pagehelper.PageInfo;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -35,11 +36,24 @@ public class UserController {
     @Autowired
     private BookService bookService;
     @RequestMapping(value = {"/","main"})
-    public String main(Model model,@RequestParam(required=true,defaultValue="1") Integer pageNum){
-        List<Book>list=bookService.quary(pageNum,10);
-        PageInfo<Book> p=new PageInfo<Book>(list);
-        model.addAttribute("page",p);
+    public String main(Model model,Integer pageNum,String key,Integer tag){
+        List<Book>list;
+        if(pageNum==null) pageNum=1;
+        if(key != null && key.length()!=0){
+            list=bookService.quaryBookByKey(key,pageNum,10  );
+        }else if(tag!=null){
+            list=bookService.quaryByTag(tag,pageNum,10);
+        }else{
+            list=bookService.quary(pageNum,10);
+
+        }
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).changeDec();
+        }
+        model.addAttribute("page",new PageInfo<Book>(list));
         model.addAttribute("books",list);
+        model.addAttribute("tags",bookService.quaryAllCategories());
+
         return  "main";
     }
     @RequestMapping(value = "/login",method= RequestMethod.GET)
@@ -80,6 +94,19 @@ public class UserController {
         return "show";
     }
 
-
+//    @RequestMapping(value = "/test")
+//    public String test(Model model) {
+//        List<Book>list=bookService.quaryAll();
+//        for (int i = 0; i < list.size(); i++) {
+//            Book book =  list.get(i);
+////            System.out.println(book.getDescription());
+//            String tmp  = book.getDescription().replaceAll("<br>", "");
+//            tmp = tmp.replaceAll("<p>","");
+//            tmp = tmp.replaceAll("</p>","");
+//            bookService.updateDescription(tmp,book.getId());
+//            System.out.println(i);
+//        }
+//        return "/";
+//    }
 
 }

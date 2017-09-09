@@ -11,7 +11,6 @@ public class Book {
     private String TOC;
     private Double price;
     private Integer clicks;
-
     public Integer getId() {
         return id;
     }
@@ -90,5 +89,14 @@ public class Book {
 
     public void setClicks(Integer clicks) {
         this.clicks = clicks;
+    }
+    public void changeDec(){
+        int i;
+        for(i = 0;i<description.length();i++){
+            if(i > 90 && description.charAt(i)== '。'){
+                break;
+            }
+        }
+        description = description.substring(0,i)+"...";
     }
 }

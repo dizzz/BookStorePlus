@@ -7,6 +7,7 @@ import com.bms.service.MyUserDetailsService;
 //import com.bms.service.UserRoleService;
 import com.bms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,7 +44,6 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         if (!password.equals(user.getLoginPwd())) {
             throw new BadCredentialsException("Wrong password.");
         }
-//        user.setRoles(userRoleService.quaryWithUserName(username));
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         return new UsernamePasswordAuthenticationToken(user, password,authorities);
     }

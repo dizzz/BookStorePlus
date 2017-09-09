@@ -7,8 +7,17 @@
     <title>show</title>
 </head>
 <body>
+<div th:replace="/common/layout::topnav"></div>
 <form th:action="@{/admin/addbook}" method="get">
     <button class="btn btn-md btn-block" type="Submit">Add a Book</button>
+</form>
+<form action="/admin/bookmanage">
+    <div class="form-group col-md-10">
+    <input type="text" class="form-control" name="key" placeholder="书名、作者、类别、ISBN">
+    </div>
+    <div class="form-group col-md-2">
+    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+    </div>
 </form>
 <form action="" method="get" th:if="${not #lists.isEmpty(books)}">
     <table class="table table-striped table-responsive">
@@ -39,6 +48,8 @@
             <td><span><a th:href="@{/admin/delbook(id=${book.title})}">删除</a></span> </td>
         </tr>
     </table>
+
 </form>
+<div th:replace="common/layout::sm-page"></div>
 </body>
 </html>

@@ -22,6 +22,11 @@ public class AdminController {
 //    private UserRoleService userRoleService;
     @Autowired
     private BookService bookService;
+
+    @RequestMapping(value = {"/","home"})
+    public String home(){
+        return "admin/home";
+    }
     @RequestMapping("/show")
     public String show(Model model){
         model.addAttribute("users",userService.quaryAll());
@@ -46,12 +51,16 @@ public class AdminController {
         return modelAndView;
     }
     @RequestMapping("/bookmanage")
-    public String bookmanage(Model model){
-        List<Book>list=bookService.quary(0,10);
-        PageInfo<Book> p=new PageInfo<Book>(list);
-        model.addAttribute("page",p);
-        model.addAttribute("books",bookService.quary(0,10));
-
+    public String bookmanage(Model model,Integer pageNum,String key){
+        if(pageNum==null) pageNum=1;
+        List<Book> list;
+        if(key != null && key.length()!=0){
+            list=bookService.quaryBookByKey(key,pageNum,10  );
+        }else {
+            list = bookService.quary(pageNum, 20);
+        }
+        model.addAttribute("page",new PageInfo<Book>(list));
+        model.addAttribute("books",list);
         return "admin/bookmanage";
     }
     @RequestMapping(value = "/addbook",method = RequestMethod.GET)
@@ -63,12 +72,12 @@ public class AdminController {
 //    不能添加已有图书，添加成功提示
     @RequestMapping(value = "/addbook",method = RequestMethod.POST)
     public String addbook(Book book,Model model){
-        bookService.add(book);
+        bookService.addBook(book);
         return "redirect:/admin/bookmanage";
     }
     @RequestMapping(value = "/delbook")
     public String delbook(HttpServletRequest request){
-        bookService.del(request.getParameter("id"));
+        bookService.delBook(request.getParameter("id"));
         return "redirect:/admin/bookmanage";
     }
 }

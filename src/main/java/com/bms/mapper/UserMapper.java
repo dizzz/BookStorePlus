@@ -5,6 +5,7 @@ import com.bms.model.User;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.security.access.method.P;
 
 @Mapper
 public interface UserMapper{
@@ -23,7 +24,14 @@ public interface UserMapper{
             @Result(column="UserRole",property = "userRole")
     })
     List<User> queryAll();
-
+    @Select("select * from Users where LoginId=#{loginId}")
+    @Results(value={
+            @Result(id=true, column="Id",property = "id"),
+            @Result(column="LoginId",property = "loginId"),
+            @Result(column="LoginPwd",property = "loginPwd"),
+            @Result(column="Name",property = "name"),
+    })
+    User queryByLoginId(@Param("loginId")String loginid);
     @Select("select * from UserDetails where LoginId = #{LoginId}")
     @Results(value={
             @Result(id=true, column="LoginId", property="loginId"),
