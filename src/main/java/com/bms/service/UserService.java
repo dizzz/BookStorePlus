@@ -38,6 +38,8 @@ public class UserService {
     public void deleteById(String id) {
         userMapper.deleteUser(id);
     }
-
+    public User quaryById(Integer id){
+        return  userMapper.queryById(id);
+    }
 
 }

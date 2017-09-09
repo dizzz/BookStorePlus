@@ -30,8 +30,30 @@ public interface UserMapper{
             @Result(column="LoginId",property = "loginId"),
             @Result(column="LoginPwd",property = "loginPwd"),
             @Result(column="Name",property = "name"),
+            @Result(column="Address",property = "address"),
+            @Result(column="Phone",property = "phone"),
+            @Result(column="Mail",property = "mail"),
+            @Result(column="Birthday",property = "birthday"),
+            @Result(column="RegisterIp",property = "registerIp"),
+            @Result(column="RegisterTime",property = "registerTime"),
+            @Result(column="UserRole",property = "userRole")
     })
     User queryByLoginId(@Param("loginId")String loginid);
+    @Select("select * from Users where Id=#{id}")
+    @Results(value={
+            @Result(id=true, column="Id",property = "id"),
+            @Result(column="LoginId",property = "loginId"),
+            @Result(column="LoginPwd",property = "loginPwd"),
+            @Result(column="Name",property = "name"),
+            @Result(column="Address",property = "address"),
+            @Result(column="Phone",property = "phone"),
+            @Result(column="Mail",property = "mail"),
+            @Result(column="Birthday",property = "birthday"),
+            @Result(column="RegisterIp",property = "registerIp"),
+            @Result(column="RegisterTime",property = "registerTime"),
+            @Result(column="UserRole",property = "userRole")
+    })
+    User queryById(@Param("id")Integer id);
     @Select("select * from UserDetails where LoginId = #{LoginId}")
     @Results(value={
             @Result(id=true, column="LoginId", property="loginId"),

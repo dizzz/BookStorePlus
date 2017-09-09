@@ -3,6 +3,7 @@ package com.bms.service;
 import com.bms.mapper.BookMapper;
 import com.bms.model.Book;
 import com.bms.model.Category;
+import com.bms.model.Publisher;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,26 +26,51 @@ public class BookService {
         PageHelper.startPage(pagenum,pagesize);
         return bookMapper.queryByKey(key);
     }
+    public Book quaryBookById(Integer id){
+        return bookMapper.quaryBookById(id);
+    }
     public List<Book>quaryByTag(Integer tag,int pagenum,int pagesize){
         PageHelper.startPage(pagenum,pagesize);
         return bookMapper.quaryByTag(tag);
     }
     public void addBook(Book book){
-        book.setPublisherId(quaryPublisherIdByName(book.getPublishHouse()));
-        bookMapper.insert(book.getTitle(),book.getAuthor(),
-                book.getPublishHouse(),book.getPublishDate(),book.getPrice());
+        bookMapper.addBook(book.getTitle(),book.getAuthor(),
+                book.getPublisherId(),book.getPublishDate(),book.getISBN(),book.getPrice(),
+                book.getDescription(),book.getTOC(),book.getCategoryId());
     }
-    public void delBook(String title){
-        bookMapper.delete(title);
+    public void delBook(Integer id){
+        bookMapper.delete(id);
+    }
+    public void updateBook(Book book){
+        bookMapper.updateBookById(book.getId(),book.getTitle(),book.getAuthor(),
+                book.getPublisherId(),book.getPublishDate(),book.getISBN(),book.getPrice(),
+                book.getDescription(),book.getTOC(),book.getCategoryId());
     }
     public void updateDescription(String des,Integer id){
         bookMapper.updateDescription(des,id);
     }
-
+    ///Category///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public List<Category> quaryAllCategories(){
         return bookMapper.quaryAllCategories();
     }
-    public Integer quaryPublisherIdByName(String name){
-        return bookMapper.quaryPublisherIdbyName(name).getId();
+    public Category quaryCategoryById(Integer id){return bookMapper.quaryCategoryById(id);}
+    public void addCategory(Category category){
+        bookMapper.addCategory(category.getName());
+    }
+    public void delCategory(Integer id){bookMapper.delCategory(id);}
+    public void updateCategory(Category category){
+        bookMapper.updateCategory(category.getId(),category.getName());
+    }
+    ///Publisher///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public List<Publisher> quaryAllPublishers(){
+        return bookMapper.quaryAllPublishers();
+    }
+    public Publisher quaryPublisherById(Integer id){return bookMapper.quaryPublisherById(id);}
+    public void addPublisher(Publisher publisher){
+        bookMapper.addPublisher(publisher.getName());
+    }
+    public void delPublisher(Integer id){bookMapper.delPublisher(id);}
+    public void updatePublisher(Publisher publisher){
+        bookMapper.updatePublisher(publisher.getId(),publisher.getName());
     }
 }

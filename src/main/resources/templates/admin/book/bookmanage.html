@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta content="text/html;charset=UTF-8"/>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <title>show</title>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js" ></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <title>bookmanage</title>
 </head>
 <body>
 <div th:replace="/common/layout::topnav"></div>
@@ -32,6 +33,7 @@
             <td>clicks</td>
             <td>publishhouse</td>
             <td></td>
+            <td></td>
         </tr>
         <tr th:each="book:${books}">
             <td><span th:text="${book.title}"></span></td>
@@ -44,8 +46,8 @@
 
             <td><span th:text="${book.clicks}"></span></td>
             <td><span th:text="${book.publishHouse}"></span></td>
-            <!--<td><span><a th:href="@{/admin/userbook(id=${book.title})}">详细</a></span> </td>-->
-            <td><span><a th:href="@{/admin/delbook(id=${book.title})}">删除</a></span> </td>
+            <td><span><a th:href="@{/admin/modifybook(id=${book.id})}">修改</a></span> </td>
+            <td><span><a th:href="@{/admin/delbook(id=${book.id})}">删除</a></span> </td>
         </tr>
     </table>
 

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js" ></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <title>CategoryManage</title>
+</head>
+<body>
+<div th:replace="/common/layout::topnav"></div>
+<form th:action="@{/admin/addcategory}" method="get">
+    <button class="btn btn-md btn-block" type="Submit">Add a Category</button>
+</form>
+
+<form action="" method="get" th:if="${not #lists.isEmpty(tags)}">
+    <table class="table table-striped table-responsive">
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr th:each="category:${tags}">
+            <td><span th:text="${category.id}"></span></td>
+            <td><span th:text="${category.name}"></span></td>
+            <td><span><a th:href="@{/admin/modifycategory(id=${category.id})}">修改</a></span> </td>
+            <td><span><a th:href="@{/admin/delcategory(id=${category.id})}">删除</a></span> </td>
+        </tr>
+    </table>
+
+</form>
+</body>
+</html>
