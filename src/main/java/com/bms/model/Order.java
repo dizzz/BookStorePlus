@@ -2,10 +2,12 @@ package com.bms.model;
 
 public class Order {
     private Integer id;
-    private String username;
+    private Integer userId;
+    private Integer bookId;
     private String booktitle;
     private String orderdate;
-    private Double totalprice;
+    private Double unitPrice;
+    private Double totalPrice;
 
     public Integer getId() {
         return id;
@@ -15,12 +17,20 @@ public class Order {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     public String getBooktitle() {
@@ -39,11 +49,19 @@ public class Order {
         this.orderdate = orderdate;
     }
 
-    public Double getTotalprice() {
-        return totalprice;
+    public Double getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setTotalprice(Double totalprice) {
-        this.totalprice = totalprice;
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

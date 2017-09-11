@@ -5,23 +5,17 @@ import com.bms.model.*;
 import com.bms.service.*;
 
 import com.github.pagehelper.PageInfo;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -35,6 +29,8 @@ public class UserController {
     private UserValidator userValidator;
     @Autowired
     private BookService bookService;
+    @Autowired
+    private CartService cartService;
     @RequestMapping(value = {"/","main"})
     public String main(Model model,Integer pageNum,String key,Integer tag){
         List<Book>list;
@@ -93,20 +89,55 @@ public class UserController {
         model.addAttribute("users",userService.quaryAll());
         return "show";
     }
-
-//    @RequestMapping(value = "/test")
-//    public String test(Model model) {
-//        List<Book>list=bookService.quaryAll();
-//        for (int i = 0; i < list.size(); i++) {
-//            Book book =  list.get(i);
-////            System.out.println(book.getDescription());
-//            String tmp  = book.getDescription().replaceAll("<br>", "");
-//            tmp = tmp.replaceAll("<p>","");
-//            tmp = tmp.replaceAll("</p>","");
-//            bookService.updateDescription(tmp,book.getId());
-//            System.out.println(i);
-//        }
-//        return "/";
-//    }
-
+    ////Book////////////////////////////////////////////////////////////////////////////////////////////
+    @RequestMapping("bookdetail")
+    public ModelAndView bookdetail(Integer bookId){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("book",bookService.quaryBookById(bookId));
+        modelAndView.setViewName("bookdetail");
+        return modelAndView;
+    }
+    ////CartItem////////////////////////////////////////////////////////////////////////////////////////////
+    @RequestMapping("addtocart")
+    public ModelAndView addtocart(Integer bookId,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        CartItem cartItem = new CartItem();
+        cartItem.setUserId(userService.quaryWithUserName(request.getRemoteUser()).getId());
+        cartItem.setBookId(bookId);
+        cartItem.setBookCnt(1);
+        cartItem.setCreateTime();
+        cartService.addItem(cartItem);
+        modelAndView.setViewName("redirect:/main");
+        return modelAndView;
+    }
+    @RequestMapping("/cart")
+    public ModelAndView cart(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        
+        List<CartItem>list=cartService.quaryCount(userService.quaryWithUserName(request.getRemoteUser()).getId());
+        int totalCnt = 0;
+        double totalPrice = 0;
+        for (int i = 0; i < list.size(); i++) {
+            totalCnt += list.get(i).getBookCnt();
+            list.get(i).setTotalPrice();
+            totalPrice += list.get(i).getTotalPrice();
+        }
+        modelAndView.addObject("items",list);
+        modelAndView.addObject("totalCnt",totalCnt);
+        modelAndView.addObject("totalPrice",totalPrice);
+        modelAndView.setViewName("cart");
+        return modelAndView;
+    }
+    @RequestMapping("updatecart")
+    public String updatecart(HttpServletRequest request, HttpServletResponse response,Integer bookId, String type){
+        Integer userId = userService.quaryWithUserName(request.getRemoteUser()).getId();
+        cartService.adjustCnt(userId,bookId,"up".equals(type));
+        return "redirect:/cart";
+    }
+    @RequestMapping("delcartitem")
+    public String delcartitem(HttpServletRequest request,Integer bookId){
+        Integer userId = userService.quaryWithUserName(request.getRemoteUser()).getId();
+        cartService.delCartItemByUserIdAndBookId(userId,bookId);
+        return "redirect:/cart";
+    }
 }

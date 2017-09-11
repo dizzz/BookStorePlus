@@ -56,11 +56,12 @@ public interface UserMapper{
     User queryById(@Param("id")Integer id);
     @Select("select * from UserDetails where LoginId = #{LoginId}")
     @Results(value={
-            @Result(id=true, column="LoginId", property="loginId"),
+            @Result(id=true, column="Id", property="id"),
+            @Result(column="LoginId", property="loginId"),
             @Result(column="LoginPwd", property="loginPwd"),
             @Result(column="UserRole",property = "userRole")
     })
-    User queryUserInfoWithUserName(@Param("LoginId") String userName);
+    User queryUserInfoByUserName(@Param("LoginId") String userName);
     //根据用户名和密码查询用户是否存在
     @Select("select * from UserDetails where LoginId = #{username} and LoginPwd = #{password}")
     @Results(value={

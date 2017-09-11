@@ -1,14 +1,35 @@
 package com.bms.model;
 
-public class Cart {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class CartItem {
     private Integer id;
     private Integer userId;
     private Integer bookId;
+    private String ISBN;
     private String bookTitle;
     private String createTime;
-    private Integer bookNum;
+    private Integer bookCnt;
+    private String author;
     private Double unitPrice;
     private Double totalPrice;
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
     public Integer getBookId() {
         return bookId;
@@ -45,17 +66,16 @@ public class Cart {
     public String getCreateTime() {
         return createTime;
     }
-
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Integer getBookNum() {
-        return bookNum;
+    public Integer getBookCnt() {
+        return bookCnt;
     }
 
-    public void setBookNum(Integer bookNum) {
-        this.bookNum = bookNum;
+    public void setBookCnt(Integer bookCnt) {
+        this.bookCnt = bookCnt;
     }
 
     public Double getUnitPrice() {
@@ -72,5 +92,13 @@ public class Cart {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+    public void setTotalPrice(){
+        this.totalPrice = this.unitPrice * this.bookCnt;
+    }
+    public void setCreateTime() {
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.createTime = sdf.format(d);
     }
 }

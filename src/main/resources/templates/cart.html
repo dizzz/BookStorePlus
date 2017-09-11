@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <!-- bootstrap-css -->
+
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" media="all" />
+    <!--// bootstrap-css -->
+    <!-- css -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <!--// css -->
+    <link href="css/docs.min.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+    <script type="text/javascript" src="js/bootstrap.min.js" ></script>
+    <title>main</title>
+    <style>
+        html,
+
+        body {
+
+            padding-top: 20px;
+
+        }
+
+
+    </style>
+    <script type="text/javascript">
+
+
+        $( document ).ready(function() {
+
+            var url = window.location;
+
+            // SUBMIT FORM
+            $("#customerForm").submit(function(event) {
+                event.preventDefault();
+                ajaxPost();
+            });
+
+
+            function ajaxPost(){
+                var formData = {
+                    firstname : $("#firstname").val(),
+                    lastname :  $("#lastname").val()
+                }
+
+                // DO POST
+                $.ajax({
+                    type : "POST",
+                    contentType : "application/json",
+                    url : "/postcustomer",
+                    data : JSON.stringify(formData),
+                    dataType : 'json',
+                    success : function(result) {
+                        if(result.status == "Done"){
+                            $("#postResultDiv").html("<strong>" + "Post Successfully! Customer's Info: FirstName = "
+                                + result.data.firstname + " ,LastName = " + result.data.lastname + "</strong>");
+                        }else{
+                            $("#postResultDiv").html("<strong>Error</strong>");
+                        }
+                        console.log(result);
+                    },
+                    error : function(e) {
+                        alert("Error!")
+                        console.log("ERROR: ", e);
+                    }
+                });
+
+                // Reset FormData after Posting
+                resetData();
+
+            }
+
+            function resetData(){
+                $("#firstname").val("");
+                $("#lastname").val("");
+            }
+        })
+
+        $( document ).ready(function() {
+
+            var url = window.location;
+
+            // SUBMIT FORM
+            $("#customerForm").submit(function(event) {
+                // Prevent the form from submitting via the browser.
+                event.preventDefault();
+                ajaxPost();
+            });
+
+
+            function ajaxPost(){
+
+                // PREPARE FORM DATA
+                var formData = {
+                    firstname : $("#firstname").val(),
+                    lastname :  $("#lastname").val()
+                }
+
+                // DO POST
+                $.ajax({
+                    type : "POST",
+                    contentType : "application/json",
+                    url : url + "/postcustomer",
+                    data : JSON.stringify(formData),
+                    dataType : 'json',
+                    success : function(result) {
+                        if(result.status == "Done"){
+                            $("#postResultDiv").html("<strong>" + "Post Successfully! Customer's Info: FirstName = "
+                                + result.data.firstname + " ,LastName = " + result.data.lastname + "</strong>");
+                        }else{
+                            $("#postResultDiv").html("<strong>Error</strong>");
+                        }
+                        console.log(result);
+                    },
+                    error : function(e) {
+                        alert("Error!")
+                        console.log("ERROR: ", e);
+                    }
+                });
+
+                // Reset FormData after Posting
+                resetData();
+
+            }
+
+            function resetData(){
+                $("#firstname").val("");
+                $("#lastname").val("");
+            }
+        })
+    </script>
+    <!--ajax好像不太work，延迟大，会刷新-->
+
+</head>
+<body>
+<header th:replace="common/layout::header"></header>
+
+<div class="col-md-11">
+    <ul class="list-inline">
+        <div class="new_container2">
+            <div class="row">
+
+                <h3> 购物车
+                    <div class="clear"></div>
+                </h3>
+                <li>
+                    <form>
+                        <div class="little_box"  th:each="cartItem:${items}">
+                            <p>————————————————————————————————————————————<p>
+
+                            <div class="col-md-3">
+                                <img th:src="@{'/image/'+${cartItem.ISBN}+'.jpg'}" height="184" width="130">
+                            </div>
+                            <div class="col-md-9">
+                                <h2 th:text="${cartItem.bookTitle}"> 私语书（插图珍藏版）
+                                    <div class="clear"></div>
+                                </h2>
+                                <h4 th:text="${cartItem.author}"></h4>
+                                <form>
+                                    <input type="hidden" name="bookId" th:value="${cartItem.bookId}">
+                                    <div class="row">
+                                        <div class="col-xs-1">
+                                            <button type="submit" class="btn btn-default" name="type" value="down" formaction="/updatecart"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true" ></span></button>
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <label th:text="${cartItem.bookCnt}"></label>
+                                        </div>
+                                        <div class="col-xs-1">
+                                            <button type="submit" class="btn btn-default" name="type" value="up" formaction="/updatecart?type=up"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <h6>￥<span th:text="${cartItem.unitPrice}"></span></h6>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="bookId" th:value="${cartItem.bookId}">  选 择
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+                <br>
+                <p>————————————————————————————————————————————<p>
+                <br>
+                <br>
+
+                <div class="col-md-11">
+                <p class="text-right">
+                    总计：<span th:text="${totalCnt}"></span> 本书    <span th:text="${totalPrice}">￥ 40</span><br>
+                    <button type="submit" class="btn btn-info" formaction="/delcartitem"> 删 除 </button>
+                    <button type="submit" class="btn btn-warning" formaction="/"> 返 回 </button>
+                    <button type="submit" class="btn btn-info"> 结 算 </button>
+                </p>
+            </div>
+        </div>
+    </ul>
+    <br>
+</div>
+</body>
+</html>

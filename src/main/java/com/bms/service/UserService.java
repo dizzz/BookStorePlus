@@ -26,7 +26,7 @@ public class UserService {
         return userMapper.queryAll();
     }
     public User quaryWithUserName(String userName){
-        return userMapper.queryUserInfoWithUserName(userName);
+        return userMapper.queryUserInfoByUserName(userName);
     }
     public User quaryWithPWD(String UserName,String password){
         return userMapper.queryUserInfoWithPwd(UserName,password);

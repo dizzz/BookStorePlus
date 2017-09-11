@@ -1,124 +1,79 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <meta content="text/html;charset=UTF-8"/>
     <!-- bootstrap-css -->
-    
-	<link rel="stylesheet" href="css/bootstrap.css" type="text/css" media="all" />
+
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" media="all" />
     <!--// bootstrap-css -->
-    	<!-- css -->
-	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <!-- css -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
     <!--// css -->
     <link href="css/docs.min.css" rel="stylesheet">
     <script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
     <script type="text/javascript" src="js/bootstrap.min.js" ></script>
     <title>main</title>
-      <style>
-    html,
+    <style>
+        html,
 
-    body {
-    
-      padding-top: 20px;
-      
-    }
+        body {
 
-    
-  </style>
+            padding-top: 20px;
+
+        }
+
+
+    </style>
 </head>
 <body>
-    <nav th:fragment="header" class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">BookShopPlus</a>
-            </div>
-    
-            <div  class="collapse navbar-collapse">
-                <form class="navbar-form navbar-left" action="/" method="get" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="key" placeholder="书名、作者、类别、ISBN">
-                    </div>
-                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                </form>
-                <ul class="nav navbar-nav navbar-right" th:if="${#httpServletRequest.remoteUser}">
-                    <li class="dropdown">
-                        <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                            <span th:text="${#httpServletRequest.remoteUser}"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a th:href="@{/logout}" method="post">Sign Out</a></li>
-                        </ul>
-                    </li>
-                </ul>
-    
-    
-                <form class="navbar-form navbar-right" th:unless="${#httpServletRequest.remoteUser}">
-                    <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Login</button>
-         
-                        <!-- <button type="submit" class="btn btn-primary" formaction="/login" >Sign In</button> -->
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-warning" formaction="/registration">Register</button>
-                    </div>
-                </form>
-    
-            </div>
-        </div>
-    </nav>
+<header th:replace="common/layout::header"></header>
 <div class="col-md-2">
     <div class="col-md-10">
-    <ul class="list-inline">
-     <!--new_container-->
-    <div class="new_container1">
-        <li>
+        <ul class="list-inline">
+            <div class="new_container1">
+                <li>
 
-            <div class="row">
+                    <div class="row">
 
-                <h3> 私语书（插图珍藏版）
-                       <div class="clear"></div>
-                </h3>
-                <br>
-                 <div class="little_box">
-                <div class="col-md-3">
-                    
-                    <img src="image/1.jpg" height="184" width="130">
-                </div>
+                        <h3 th:text="${book.title}"> 私语书（插图珍藏版）
+                            <div class="clear"></div>
+                        </h3>
+                        <br>
+                        <div class="little_box">
+                            <div class="col-md-3">
 
-                <div class="col-md-9">
-                 <h4>作者: 黎戈 </h4>
-                 <h4>出版社: 生活•读书•新知三联书店 </h4>
-                 <h4>出版日期: 2017-8-1 </h4>
-                 <h4>页数：352</h4>
-                 <h4>价格:<span>￥40.00</span></h4>
-                 <h4>ISBN: 9787807682035</h4>
+                                <img th:src="@{'/image/'+${book.ISBN}+'.jpg'}" height="184" width="130">
+                            </div>
 
-                    <p>
-                    <button type="button" class="btn btn-primary btn-sm">购 买</button>
-                    <button type="button" class="btn btn-default btn-sm">加入购物车</button>
-    
-                    </p>
-                 <br>
+                            <div class="col-md-9">
+                                <h4>作者: <span th:text="${book.author}"></span></h4>
+                                <h4>出版社: <span th:text="${book.author}"></span></h4>
+                                <h4>出版日期: <span th:text="${book.author}"></span></h4>
+                                <h4>价格:<span th:text="${book.author}"></span></h4>
+                                <h4>ISBN: <span th:text="${book.author}"></span></h4>
 
-                </div>
-                 </div>
-                <h5>----内容简介-----</h5>
-                                <p>这是一本私密的物语，黎戈以女性特有的细致关注身边的点滴事物。包括“微物”、“百合”、“深渊”三部分，写的是日常微物，生活细节，日常小事，读书笔记，文笔绵密，深入肌理，广为读者称颂。《私语书》是黎戈的代表作品，曾被评为“豆瓣2013年最受关注的图书”。</p>
-                <h5>........评论.........</h5>
-                <p>————————————————————————————————————————————<p>
-                <p>评论日期:0000-00-00  用户id  评分</p>
-                <p>————————————————————————————————————————————<p>
+                                <p>
+                                    <button type="button" class="btn btn-primary btn-sm">购 买</button>
+                                    <button type="button" class="btn btn-default btn-sm">加入购物车</button>
 
+                                </p>
+                                <br>
+
+                            </div>
+                        </div>
+                        <h5>----内容简介-----</h5>
+                        <p th:text="${book.description}"></p>
+                        <h5>........评论.........</h5>
+                        <p>————————————————————————————————————————————<p>
+                        <p>评论日期:0000-00-00  用户id  评分</p>
+                        <p>————————————————————————————————————————————<p>
+
+                    </div>
+                </li>
             </div>
-        </li>
+            <br>
+        </ul>
     </div>
-    <br>
-</div>  
+</div>
 </body>
 </html>

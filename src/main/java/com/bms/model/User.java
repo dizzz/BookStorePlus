@@ -158,7 +158,7 @@ public class User {
     }
     public void setRegisterTime() {
         Date d = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.registerTime = sdf.format(d);
     }
     public void setRegisterIp(HttpServletRequest request) {
