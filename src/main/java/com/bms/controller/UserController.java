@@ -5,6 +5,7 @@ import com.bms.model.*;
 import com.bms.service.*;
 
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,8 +32,11 @@ public class UserController {
     private BookService bookService;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private OrderService orderService;
     @RequestMapping(value = {"/","main"})
     public String main(Model model,Integer pageNum,String key,Integer tag){
+        System.out.println(orderService.getNextOrderId());
         List<Book>list;
         if(pageNum==null) pageNum=1;
         if(key != null && key.length()!=0){
@@ -128,16 +132,28 @@ public class UserController {
         modelAndView.setViewName("cart");
         return modelAndView;
     }
+
+    @RequestMapping("delcartitem")
+    public String delcartitem(HttpServletRequest request,Integer[] bookId){
+        Integer userId = userService.quaryWithUserName(request.getRemoteUser()).getId();
+        for(int i = 0;i<bookId.length;i++)
+        cartService.delCartItemByUserIdAndBookId(userId,bookId[i]);
+        return "redirect:/cart";
+    }
     @RequestMapping("updatecart")
     public String updatecart(HttpServletRequest request, HttpServletResponse response,Integer bookId, String type){
         Integer userId = userService.quaryWithUserName(request.getRemoteUser()).getId();
         cartService.adjustCnt(userId,bookId,"up".equals(type));
         return "redirect:/cart";
     }
-    @RequestMapping("delcartitem")
-    public String delcartitem(HttpServletRequest request,Integer bookId){
+    @RequestMapping("orderBook")
+    public String orderBook(HttpServletRequest request,Integer[] bookId){
+//        TODO
+//        记得把变量都放到域里面..
         Integer userId = userService.quaryWithUserName(request.getRemoteUser()).getId();
-        cartService.delCartItemByUserIdAndBookId(userId,bookId);
+        for(int i = 0;i<bookId.length;i++)
+            cartService.delCartItemByUserIdAndBookId(userId,bookId[i]);
         return "redirect:/cart";
     }
+
 }

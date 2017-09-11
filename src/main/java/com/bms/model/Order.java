@@ -1,13 +1,25 @@
 package com.bms.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Order {
     private Integer id;
     private Integer userId;
     private Integer bookId;
+    private Integer quantity;
     private String booktitle;
     private String orderdate;
     private Double unitPrice;
     private Double totalPrice;
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 
     public Integer getId() {
         return id;
@@ -47,6 +59,11 @@ public class Order {
 
     public void setOrderdate(String orderdate) {
         this.orderdate = orderdate;
+    }
+    public void setOrderdate(){
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.orderdate = sdf.format(d);
     }
 
     public Double getUnitPrice() {
