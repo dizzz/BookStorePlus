@@ -693,3 +693,70 @@ body #db-pay-tips {
       width: 650px;
     }
   }
+.container_toplist{
+  	background: white;
+  background-clip: padding-box;
+   /* border:  solid #f7996d; */
+    padding-top: 2px;
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-bottom: 2px;
+    
+    margin-right: auto;
+    margin-left: auto;
+      border: solid 2px #6BC120;  
+}
+      .container_toplist p{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1.1em;
+    line-height:100%;
+    text-indent:15px;
+    color: #3e3e3e;
+  }
+    .container_toplist p span{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1.2em;
+    line-height:100%;
+    text-indent:30px;
+    color: #369;
+  }
+      .container_toplist a {
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1.1em;
+    line-height:100%;
+    text-indent:30px;
+  }
+    .container_toplist h3{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1.2em;
+    /* text-align: center; */
+    text-indent:60px;
+    text-indent:30px;
+    color:#7E8080;
+  }
+      .container_toplist h3 span{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 0.75em;
+
+    /* text-align: center; */
+    color:#000;
+  }
+      .container_toplist h2{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1.4em;
+
+    color:#37a;;
+  }
+      .container_toplist h6{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 2em;
+    color:#F62D45;
+  }
+      .container_toplist h5{
+    font-family: 'Microsoft yahei',sans-serif;
+    font-size: 1em;
+        text-indent:15px;
+    color:#57B940;
+    text-align:center;
+  }
+
