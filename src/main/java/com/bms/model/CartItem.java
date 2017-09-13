@@ -3,46 +3,36 @@ package com.bms.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CartItem {
+public class CartItem extends Book{
     private Integer id;
     private Integer userId;
-    private Integer bookId;
-    private String ISBN;
-    private String bookTitle;
     private String createTime;
     private Integer bookCnt;
-    private String author;
-    private Double unitPrice;
     private Double totalPrice;
-
-    public String getISBN() {
-        return ISBN;
+    public CartItem(){}
+    public CartItem(Book book){
+        super(book);
+        this.bookCnt = 1;
     }
-
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+    public CartItem(Integer userId,Integer bookId,Integer bookCnt){
+        this.userId = userId;
+        this.bookCnt = bookCnt;
+        super.setId(bookId);
+        this.setCreateTime();
     }
 
     public Integer getBookId() {
-        return bookId;
+        return super.getId();
     }
 
     public void setBookId(Integer bookId) {
-        this.bookId = bookId;
+        super.setId(bookId);
     }
-
+    @Override
     public Integer getId() {
         return id;
     }
-
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -56,11 +46,11 @@ public class CartItem {
     }
 
     public String getBookTitle() {
-        return bookTitle;
+        return super.getTitle();
     }
 
     public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
+        super.setTitle(bookTitle);
     }
 
     public String getCreateTime() {
@@ -79,11 +69,12 @@ public class CartItem {
     }
 
     public Double getUnitPrice() {
-        return unitPrice;
+        return super.getPrice();
     }
 
+
     public void setUnitPrice(Double unitPrice) {
-        this.unitPrice = unitPrice;
+        super.setPrice(unitPrice);
     }
 
     public Double getTotalPrice() {
@@ -94,7 +85,7 @@ public class CartItem {
         this.totalPrice = totalPrice;
     }
     public void setTotalPrice(){
-        this.totalPrice = this.unitPrice * this.bookCnt;
+        this.totalPrice = super.getPrice() * this.bookCnt;
     }
     public void setCreateTime() {
         Date d = new Date();

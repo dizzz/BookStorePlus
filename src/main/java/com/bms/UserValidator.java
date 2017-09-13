@@ -37,6 +37,6 @@ public class UserValidator implements Validator {
         if (!user.getPwdComfirm().equals(user.getLoginPwd())) {
             errors.rejectValue("pwdComfirm", "error.user","These passwords don't match.");
         }
-        //TODO
+        //TODO 邮箱格式
     }
 }

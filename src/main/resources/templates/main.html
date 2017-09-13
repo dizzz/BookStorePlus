@@ -36,10 +36,10 @@
                             <span th:text="${book.author}"></span><br>
                             <span th:text="${book.publishHouse}"></span><br>
                             <a>价格:￥</a><a><span th:text="${book.price}"></span></a>
-                            <p th:text="${book.description}"></p>
+                            <p th:text="${book.shortDescription}"></p>
                             <p>
                             <form>
-                                <button type="submit" class="btn btn-primary btn-sm" name="bookId" >购 买</button>
+                                <button type="submit" class="btn btn-primary btn-sm" name="bookId" th:value="${book.id}" formaction="/confirm">购 买</button>
                                 <button type="submit" class="btn btn-default btn-sm" name="bookId" th:value="${book.id}" formaction="/bookdetail">详细信息</button>
                                 <button type="submit" class="btn btn-default btn-sm" name="bookId" th:value="${book.id}" formaction="/addtocart">加入购物车</button>
                             </form>

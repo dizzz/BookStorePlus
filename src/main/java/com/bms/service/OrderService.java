@@ -1,7 +1,7 @@
 package com.bms.service;
 
 import com.bms.mapper.OrderMapper;
-import com.bms.model.Order;
+import com.bms.model.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,8 @@ public class OrderService {
     public Integer getNextOrderId(){
         return orderMapper.getNextOrdersId();
     }
-    public void addOrder(Order order){
+    public void addOrder(OrderItem order){
         int id = orderMapper.getNextOrdersId();
-        order.setOrderdate();
         orderMapper.addtoOrders(id,order.getOrderdate(),order.getUserId(),order.getTotalPrice());
         orderMapper.addtoOrderBook(id,order.getBookId(),order.getQuantity(),order.getUnitPrice());
     }

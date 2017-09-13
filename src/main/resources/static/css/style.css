@@ -644,7 +644,23 @@ body #db-pay-tips {
   }
 
 /*-- //new_container --*/
+.new_container3 {
+  background: white;
+  background-clip: padding-box;
+   /*border:  solid #c3c3c3;*/
+  padding-top: 20px;
+  padding-right: 30px;
+  padding-left: 30px;
+  padding-bottom: 5px;
 
+  margin-right: auto;
+  margin-left: auto;
+  /* border: solid 8px #6BC120; */
+}
+.new_container3 h3{
+  text-indent:450px;
+  color:#003300;
+}
 .little_box {
 	background: white;
   background-clip: padding-box;
@@ -668,7 +684,7 @@ body #db-pay-tips {
     font-family: 'Microsoft yahei',sans-serif;
     font-size: 1.5em;
     text-indent:15px;
-    color:#7E8080;
+    color:#000000;
   }
       .little_box h4{
     font-family: 'Microsoft yahei',sans-serif;
@@ -679,9 +695,9 @@ body #db-pay-tips {
       .little_box h5{
     font-family: 'Microsoft yahei',sans-serif;
     font-size: 1em;
-        text-indent:15px;
+        /*text-indent:15px;*/
     color:#57B940;
-    text-align:center;
+    /*text-align:center;*/
   }
   @media (min-width: 768px) {
     .little_box {
