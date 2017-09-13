@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import sun.awt.Symbol;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,10 +34,20 @@ public class BusinessController {
     private List<Book>bookList;
     private List<CartItem>cartItemList;
     private List<Category>categoryList;
-    List<OrderItem>orderitems;
+    private Order order;
     private Integer userId;
 
     private Book thisBook;//detail页面的书
+    @RequestMapping("home")
+    public ModelAndView  home(){
+        ModelAndView  modelAndView = new ModelAndView();
+        bookList=bookService.quary(1,5);
+        categoryList = bookService.quaryAllCategories();
+        modelAndView.addObject("books",bookList);
+        modelAndView.addObject("tags",categoryList);
+        modelAndView.setViewName("home");
+        return modelAndView;
+    }
     @RequestMapping(value = {"/","main"})
     public String main(Model model, Integer pageNum, String key, Integer tag){
         if(pageNum==null) pageNum=1;
@@ -82,8 +91,7 @@ public class BusinessController {
     public ModelAndView addtocart(Integer bookId,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
-        CartItem cartItem = new CartItem(userId,bookId,1);
-        cartService.addItem(cartItem);
+        cartService.addItem(new CartItem(userId,bookService.quaryBookById(bookId),1));
         modelAndView.setViewName("redirect:/main");
         return modelAndView;
     }
@@ -95,7 +103,7 @@ public class BusinessController {
         int totalCnt = 0;
         double totalPrice = 0;
         for (int i = 0; i < cartItemList.size(); i++) {
-            totalCnt += cartItemList.get(i).getBookCnt();
+            totalCnt += cartItemList.get(i).getQuantity();
             cartItemList.get(i).setTotalPrice();
             totalPrice += cartItemList.get(i).getTotalPrice();
         }
@@ -123,15 +131,15 @@ public class BusinessController {
     public ModelAndView confirm(HttpServletRequest request,Integer[] bookId){
         ModelAndView modelAndView = new ModelAndView();
         userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
+        order = new Order(userId);
         String URL = request.getHeader("Referer");
-        orderitems = new ArrayList<OrderItem>();
         if(URL.indexOf("cart") != -1){
             //从购物车购买
             if(cartItemList != null && bookId != null) {
                 for (int i = 0; i < cartItemList.size(); i++) {
                     for (int j = 0; j < bookId.length; j++) {
                         if (cartItemList.get(i).getBookId().intValue() == bookId[j].intValue()) {
-                            orderitems.add(new OrderItem(cartItemList.get(i)));
+                            order.add(cartItemList.get(i));
                             break;
                         }
                     }
@@ -139,14 +147,13 @@ public class BusinessController {
             }
         }else if (URL.indexOf("bookdetail") != -1){
             //从detail页购买
-            orderitems.add(new OrderItem(userId,1,thisBook));
+            order.getItems().add(new CartItem(thisBook));
         }else{
             if(bookList != null){
                 for(int i = 0;i<bookList.size();i++){
                     if(bookList.get(i).getId().intValue() == bookId[0]){
                         //从主页购买
-//                    orderService.addOrder(new OrderItem(userId,bookId[0],book.getTitle(),book.getISBN(),1,book.getPrice(),book.getPrice()));
-                        orderitems.add(new OrderItem(userId,1,bookList.get(i)));
+                        order.add(new CartItem(bookList.get(i)));
                         break;
                     }
                 }
@@ -154,25 +161,30 @@ public class BusinessController {
             }
             //否则
         }
-        if(orderitems.size() == 0 && bookId!=null) {
+        if(order.getItems().size() == 0 && bookId!=null) {
             for(int i =0;i<bookId.length;i++)
-            orderitems.add(new OrderItem(userId, 1, bookService.quaryBookById(bookId[i])));
+                order.add(new CartItem(bookService.quaryBookById(bookId[i])));
         }
-        double totalPrice = 0;
-        for (int i = 0; i < orderitems.size(); i++) {
-            totalPrice += orderitems.get(i).getTotalPrice();
-        }
-        modelAndView.addObject("totalPrice",totalPrice);
-        modelAndView.addObject("orderitems",orderitems);
+        modelAndView.addObject("totalPrice",order.getTotalPrice());
+        modelAndView.addObject("items",order.getItems());
         modelAndView.setViewName("confirm");
 //        return "redirect:/cart";
         return modelAndView;
     }
     @RequestMapping("addorder")
     public String addorder(){
-//        if(orderitems == null)
+        if(order == null)
             return "redirect:/main";
-
+        orderService.addOrder(order);
+        return "redirect:/main";
+    }
+    @RequestMapping("order")
+    public ModelAndView order(HttpServletRequest request) {
+        userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
+        ModelAndView modelAndView = new ModelAndView();
+        List<Order>orders = orderService.quaryOrderByUserId(userId);
+        modelAndView.addObject("orders");
+        return modelAndView;
     }
 
 }
