@@ -129,7 +129,9 @@
 </nav>
 
 <ul th:fragment="side" class="list-group">
-    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
+    <!--<nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">-->
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
+
         <h1>Tags</h1>
         <ul class="nav bs-docs-sidenav">
             <li th:each="category:${tags}">
@@ -150,4 +152,5 @@
     <li role="presentation" th:classappend="${#httpServletRequest.requestURI=='/admin/bookmanage'?'active':''}"><a href="/admin/bookmanage">Bookmanage</a></li>
     <li role="presentation" th:classappend="${#httpServletRequest.requestURI=='/admin/categorymanage'?'active':''}"><a href="/admin/categorymanage">Categorymanage</a></li>
     <li role="presentation" th:classappend="${#httpServletRequest.requestURI=='/admin/publishermanage'?'active':''}"><a href="/admin/publishermanage">Publishermanage</a></li>
+    <li role="presentation" th:classappend="${#httpServletRequest.requestURI=='/admin/ordermanage'?'active':''}"><a href="/admin/ordermanage">Ordermanage</a></li>
 </ul>

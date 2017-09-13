@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<dl class="dl-horizontal" th:object="${order}">
+    <dt>id</dt>
+    <dd><span th:text="${order.id}"></span></dd>
+    <dt>Date</dt>
+    <dd><span th:text="${order.orderDate}"></span></dd>
+    <dt>totalPrice</dt>
+    <dd><span th:text="${order.totalPrice}"></span></dd>
+    <dt>userId</dt>
+    <dd><span th:text="${order.userId}"></span></dd>
+</dl>
+<table class="table table-striped table-responsive">
+    <tr>
+        <td>bookId</td>
+        <td>quantity</td>
+    </tr>
+    <tr th:each="cartItem:${items}">
+        <td><span th:text="${cartItem.bookId}"></span></td>
+        <td><span th:text="${cartItem.quantity}"></span></td>
+    </tr>
+</table>
+</body>
+</html>

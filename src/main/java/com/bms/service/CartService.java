@@ -14,7 +14,7 @@ public class CartService {
     @Autowired
     private CartMapper cartMapper;
     public void addItem(CartItem cartItem){
-        for(int i = 0; i< cartItem.getBookCnt(); i++)
+        for(int i = 0; i< cartItem.getQuantity(); i++)
             cartMapper.addCartItem(cartItem.getCreateTime(), cartItem.getBookId(), cartItem.getUserId());
     }
     public List<CartItem> quaryCount(Integer userId){
@@ -25,7 +25,7 @@ public class CartService {
 
     }
     public void adjustCnt(Integer userId,Integer bookId,boolean up){
-        int cnt = cartMapper.queryByUserIdAndBookId(userId,bookId).getBookCnt() + (up?1:-1);
+        int cnt = cartMapper.queryByUserIdAndBookId(userId,bookId).getQuantity() + (up?1:-1);
         cartMapper.delCartItemByUserIdAndBookId(userId,bookId);
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

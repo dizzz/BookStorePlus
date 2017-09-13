@@ -28,66 +28,61 @@
 <body>
 <header th:replace="common/layout::header"></header>
 <div class="col-md-12">
-    <ul class="list-inline" th:if="${not #lists.isEmpty(orderitems)}">
+    <ul class="list-inline" th:if="${not #lists.isEmpty(items)}">
         <!--new_container-->
         <form>
-
-                <div class="new_container3">
-
-
-                        <h3> 订单确认--确认书籍信息
-                            <div class="clear"></div>
-                        </h3>
-
-
-                    <div th:each="orderItem:${orderitems}" class="little_box">
-                        <input type="hidden" name="bookId" th:value="${orderItem.bookId}">
-                        <input type="hidden" name="quantity" th:value="${orderItem.quantity}">
-                        <div class="row">
-                            <li>
-                                <div class="col-md-1">
-                                    <p><span>.</span> </p>
-                                </div>
-                                <div class="col-md-3">
-                                    <img th:src="@{'/image/'+${orderItem.ISBN}+'.jpg'}" height="184" width="130">
-                                </div>
-                                <div class="col-md-8">
-                                    <h5 th:text="${orderItem.bookTitle}"> 私语书（插图珍藏版）
-                                        <div class="clear"></div>
-                                    </h5>
-                                    <h4 th:text="${orderItem.author}+'/'+${orderItem.publishHouse}+'/'+${orderItem.publishDate}">作者: 黎戈 /生活•读书•新知三联书店/2017-8-1/352页</h4>
-                                    <h4 th:text="${orderItem.unitPrice}">￥40</h4>
-                                    <h4>数量: <span th:text="${orderItem.quantity}"></span></h4>
-                                </div>
-                            </li>
-                        </div>
+            <div class="new_container3">
+                <h3> 订单确认--确认书籍信息
+                    <div class="clear"></div>
+                </h3>
+                <div th:each="cartItem:${items}" class="little_box">
+                    <input type="hidden" name="bookId" th:value="${cartItem.bookId}">
+                    <input type="hidden" name="quantity" th:value="${cartItem.quantity}">
+                    <div class="row">
+                        <li>
+                            <div class="col-md-1">
+                                <p><span>.</span> </p>
+                            </div>
+                            <div class="col-md-3">
+                                <img th:src="@{'/image/'+${cartItem.ISBN}+'.jpg'}" height="184" width="130">
+                            </div>
+                            <div class="col-md-8">
+                                <h5 th:text="${cartItem.bookTitle}"> 私语书（插图珍藏版）
+                                    <div class="clear"></div>
+                                </h5>
+                                <h4 th:text="${cartItem.author}+'/'+${cartItem.publishHouse}+'/'+${cartItem.publishDate}">作者: 黎戈 /生活•读书•新知三联书店/2017-8-1/352页</h4>
+                                <h4 th:text="${cartItem.unitPrice}">￥40</h4>
+                                <h4>数量: <span th:text="${cartItem.quantity}"></span></h4>
+                            </div>
+                        </li>
                     </div>
+                </div>
+                <br>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+                <div class="textprice">
+
+                    <h6 >总 计：<span th:text="${totalPrice}"></span></h6>
+
+                </div>
+            </div>
+            <div class="col-md-11">
+                <p class="text-right">
                     <br>
-                </div>
-                <br>
-                <br>
-                <br>
-                <div class="col-md-6">
-                </div>
-                <div class="col-md-6">
-                    <div class="textprice">
-
-                        <h6 >总 计：<span th:text="${totalPrice}"></span></h6>
-
-                    </div>
-                </div>
-                <div class="col-md-11">
-                    <p class="text-right">
-                        <br>
-                        <button type="submit" class="btn btn-warning" formaction="/"> 返 回 </button>
-                        <button type="submit" class="btn btn-info" formaction="/addorder">确 认 </button>
-                    </p>
-                </div>
+                    <button type="submit" class="btn btn-warning" formaction="/"> 返 回 </button>
+                    <button type="submit" class="btn btn-info" formaction="/addorder">确 认 </button>
+                </p>
+            </div>
         </form>
 
 
     </ul>
-    <div class="new_container3" th:unless   ="${not #lists.isEmpty(orderitems)}">
+    <div class="new_container3" th:unless   ="${not #lists.isEmpty(items)}">
         <h4>没有订单信息</h4>
         <form>
             <button type="submit" class="btn btn-warning" formaction="/"> 返 回 </button>

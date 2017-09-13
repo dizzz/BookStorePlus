@@ -69,11 +69,11 @@
     <!--success : function(result) {-->
     <!--if(result.status == "done"){-->
     <!--if(result.data =="up") {-->
-    <!--var s = $("label#bookCnt").text()+1;-->
-    <!--$("#bookCnt").html(s);-->
+    <!--var s = $("label#quantity").text()+1;-->
+    <!--$("#quantity").html(s);-->
     <!--}else {-->
-    <!--var s = parseInt($("label#bookCnt").text())-1;-->
-    <!--$("#bookCnt").html(s);-->
+    <!--var s = parseInt($("label#quantity").text())-1;-->
+    <!--$("#quantity").html(s);-->
     <!--}-->
     <!--}else{-->
     <!--}-->
@@ -128,7 +128,7 @@
                                         <!--<button type="submit" class="btn btn-default" name="type" value="down" formaction="/updatecart"></button>-->
                                     </div>
                                     <div class="col-xs-2">
-                                        <label th:text="${cartItem.bookCnt}"></label>
+                                        <label th:text="${cartItem.quantity}"></label>
                                     </div>
                                     <div class="col-xs-1">
                                         <a th:href="@{/updatecart(type=up,bookId=${cartItem.bookId})}"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true" ></span></a>

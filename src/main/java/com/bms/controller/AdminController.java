@@ -1,11 +1,9 @@
 
 package com.bms.controller;
-import com.bms.model.Book;
-import com.bms.model.Category;
-import com.bms.model.Publisher;
-import com.bms.model.User;
+import com.bms.model.*;
 import com.bms.service.*;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +21,8 @@ public class AdminController {
     private UserService userService;
     @Autowired
     private BookService bookService;
-
+    @Autowired
+    private OrderService orderService;
     @RequestMapping(value = {"/","home"})
     public String home(){
         return "admin/home";
@@ -167,6 +166,22 @@ public class AdminController {
     public String modifypublisher(Publisher publisher){
         bookService.updatePublisher(publisher);
         return "redirect:/admin/publishermanage";
+    }
+    ///Order//////////////////////////////////////////////////////////////////////////////////////
+    @RequestMapping("ordermanage")
+    public ModelAndView ordermanage(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("orders",orderService.quaryAllOrders());
+        modelAndView.setViewName("/admin/order/ordermanage");
+        return modelAndView;
+    }
+    @RequestMapping("orderdetail")
+    public ModelAndView orderdetail(Integer id){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("order",orderService.quaryOrderById(id));
+        modelAndView.addObject("items",orderService.quaryOrderItemByOrderId(id));
+        modelAndView.setViewName("/admin/order/orderdetail");
+        return modelAndView;
     }
 }
 //TODO model函数统一

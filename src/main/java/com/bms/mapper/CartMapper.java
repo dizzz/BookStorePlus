@@ -41,7 +41,7 @@ public interface CartMapper {
     @Results(value = {
             @Result(column = "UserId",property = "userId"),
             @Result(column = "BookId",property = "bookId"),
-            @Result(column = "BookCnt",property = "bookCnt"),
+            @Result(column = "BookCnt",property = "quantity"),
             @Result(column = "ISBN", property = "ISBN"),
             @Result(column = "BookTitle", property = "bookTitle"),
             @Result(column = "Author", property = "author"),

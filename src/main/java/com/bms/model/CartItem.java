@@ -7,17 +7,22 @@ public class CartItem extends Book{
     private Integer id;
     private Integer userId;
     private String createTime;
-    private Integer bookCnt;
+    private Integer quantity;
     private Double totalPrice;
-    public CartItem(){}
+    public CartItem(){
+        this.quantity =0 ;
+        this.totalPrice = 0.0;
+    }
     public CartItem(Book book){
         super(book);
-        this.bookCnt = 1;
+        this.quantity = 1;
+        this.totalPrice = super.getPrice();
     }
-    public CartItem(Integer userId,Integer bookId,Integer bookCnt){
-        this.userId = userId;
-        this.bookCnt = bookCnt;
-        super.setId(bookId);
+    public CartItem(Integer userId,Book book,Integer bookCnt){
+        super(book);
+        this.setUserId(userId);
+        this.quantity = bookCnt;
+        this.totalPrice = super.getPrice() * bookCnt;
         this.setCreateTime();
     }
 
@@ -60,12 +65,12 @@ public class CartItem extends Book{
         this.createTime = createTime;
     }
 
-    public Integer getBookCnt() {
-        return bookCnt;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setBookCnt(Integer bookCnt) {
-        this.bookCnt = bookCnt;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public Double getUnitPrice() {
@@ -85,7 +90,7 @@ public class CartItem extends Book{
         this.totalPrice = totalPrice;
     }
     public void setTotalPrice(){
-        this.totalPrice = super.getPrice() * this.bookCnt;
+        this.totalPrice = super.getPrice() * this.quantity;
     }
     public void setCreateTime() {
         Date d = new Date();
