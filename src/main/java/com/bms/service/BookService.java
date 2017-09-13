@@ -2,6 +2,7 @@ package com.bms.service;
 
 import com.bms.mapper.BookMapper;
 import com.bms.model.Book;
+import com.bms.model.BookRating;
 import com.bms.model.Category;
 import com.bms.model.Publisher;
 import com.github.pagehelper.PageHelper;
@@ -72,5 +73,16 @@ public class BookService {
     public void delPublisher(Integer id){bookMapper.delPublisher(id);}
     public void updatePublisher(Publisher publisher){
         bookMapper.updatePublisher(publisher.getId(),publisher.getName());
+    }
+    ///Rating///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public List<BookRating>quaryBookRatingByBookId(Integer bookId){
+        return bookMapper.quaryBookRatingByBookId(bookId);
+    }
+    public void addBookRating(BookRating bookRating){
+        bookMapper.addBookRating(bookRating.getBookId(),bookRating.getUserId(),bookRating.getRating(),bookRating.getComment(),bookRating.getCreatedTime());
+    }
+    public void delBookRatingById(Integer id){
+        bookMapper.delBookRatingById(id);
     }
 }

@@ -66,10 +66,11 @@
                         <h5>----内容简介-----</h5>
                         <p th:text="${book.description}"></p>
                         <h5>........评论.........</h5>
-                        <p>————————————————————————————————————————————<p>
-                        <p>评论日期:0000-00-00  用户id  评分</p>
-                        <p>————————————————————————————————————————————<p>
-
+                        <div th:each="bookRating:${ratings}">
+                            <p>————————————————————————————————————————————<p>
+                            <p>评论日期:<span th:text="${bookRating.createdTime}"></span>  用户id <span th:text="${bookRating.userName}"></span>  评分 <span th:text="${bookRating.rating}"></span></p>
+                            <p class="lead" th:text="${bookRating.comment}"></p>
+                        </div>
                     </div>
                 </li>
             </div>

@@ -24,6 +24,9 @@ public class Order {
         this.items.add(cartItem);
         totalPrice += cartItem.getTotalPrice();
     }
+    public CartItem get(int i){
+        return this.items.get(i);
+    }
     public List<CartItem> getItems() {
         return items;
     }

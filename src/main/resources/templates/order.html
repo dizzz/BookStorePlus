@@ -15,6 +15,18 @@
     <title>My Orders</title>
 </head>
 <body>
+<ul th:if="${not #lists.isEmpty(orders)}">
+        <div th:each="order:${orders}">
+            <p th:text="${order.id} + '/' + ${order.totalPrice}"></p>
+            <form th:with="items=${order.items}">
+                <div th:each="cartItem:${items}">
+                    <p th:text="${cartItem.title}"></p>
+                    <a th:href="@{/ratebook(id=${cartItem.bookId})}">评论</a>
+                    <p th:text="${cartItem.quantity}"></p>
 
+                </div>
+            </form>
+        </div>
+</ul>
 </body>
 </html>

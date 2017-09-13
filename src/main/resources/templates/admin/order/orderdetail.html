@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta content="text/html;charset=UTF-8"/>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js" ></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <title>OrderDetail</title>
 </head>
 <body>
 <dl class="dl-horizontal" th:object="${order}">
@@ -18,10 +21,16 @@
 <table class="table table-striped table-responsive">
     <tr>
         <td>bookId</td>
+        <td>bookTitle</td>
+        <td>Author</td>
+        <td>PublishHouse</td>
         <td>quantity</td>
     </tr>
     <tr th:each="cartItem:${items}">
         <td><span th:text="${cartItem.bookId}"></span></td>
+        <td><span th:text="${cartItem.title}"></span></td>
+        <td><span th:text="${cartItem.author}"></span></td>
+        <td><span th:text="${cartItem.publishHouse}"></span></td>
         <td><span th:text="${cartItem.quantity}"></span></td>
     </tr>
 </table>

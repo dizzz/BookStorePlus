@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,6 +84,8 @@ public class BusinessController {
                 }
             }}
         thisBook = bookService.quaryBookById(bookId);
+        modelAndView.addObject("ratings",bookService.quaryBookRatingByBookId(bookId));
+
         modelAndView.addObject("book",thisBook);
         return modelAndView;
     }
@@ -173,9 +176,12 @@ public class BusinessController {
     }
     @RequestMapping("addorder")
     public String addorder(){
-        if(order == null)
+        if(order == null || userId == null)
             return "redirect:/main";
         orderService.addOrder(order);
+        for(int i = 0;i<order.getItems().size();i++){
+            cartService.delCartItemByUserIdAndBookId(userId,order.get(i).getBookId());
+        }
         return "redirect:/main";
     }
     @RequestMapping("order")
@@ -183,8 +189,29 @@ public class BusinessController {
         userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
         ModelAndView modelAndView = new ModelAndView();
         List<Order>orders = orderService.quaryOrderByUserId(userId);
-        modelAndView.addObject("orders");
+        for(int i = 0;i<orders.size();i++){
+            Order order = orders.get(i);
+            order.setItems(orderService.quaryOrderItemByOrderId(order.getId()));
+        }
+        modelAndView.addObject("orders",orders);
         return modelAndView;
     }
-
+    @RequestMapping(value = "ratebook",method = RequestMethod.GET)
+    public ModelAndView ratebook(Integer id){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("book",bookService.quaryBookById(id));
+        modelAndView.setViewName("ratebook");
+        return modelAndView;
+    }
+    @RequestMapping(value = "ratebook",method = RequestMethod.POST)
+    public ModelAndView doratebook(HttpServletRequest request,Integer bookId,Integer rating,String comment){
+        ModelAndView modelAndView = new ModelAndView();
+        userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
+        bookService.addBookRating(new BookRating(userId,bookId,rating,comment));
+        modelAndView.addObject("bookId",bookId);
+        modelAndView.setViewName("redirect:/bookdetail?bookId="+bookId);
+        return modelAndView;
+    }
 }
+//bookDetail bookId重复
+//TODO

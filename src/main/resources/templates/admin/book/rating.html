@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js" ></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <title>rating</title>
+</head>
+<body>
+<table class="table table-striped table-responsive">
+    <tr>
+        <td>UserName</td>
+        <td>Rating</td>
+        <td>Comment</td>
+        <td>CreatedTime</td>
+        <td></td>
+    </tr>
+    <tr th:each="bookRating:${ratings}">
+        <td><span th:text="${bookRating.userName}"></span></td>
+        <td><span th:text="${bookRating.rating}"></span></td>
+        <td><span th:text="${bookRating.comment}"></span></td>
+        <td><span th:text="${bookRating.createdTime}"></span></td>
+        <td><span><a th:href="@{/admin/delrating(bookId=${bookRating.bookId},ratingId=${bookRating.id})}">删除</a></span> </td>
+    </tr>
+</table>
+</body>
+</html>

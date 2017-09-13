@@ -1,9 +1,6 @@
 package com.bms.mapper;
 
-import com.bms.model.Book;
-import com.bms.model.Category;
-import com.bms.model.Publisher;
-import com.bms.model.User;
+import com.bms.model.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.security.access.method.P;
 
@@ -127,5 +124,22 @@ public interface BookMapper {
     void delPublisher(@Param("id") Integer id);
     @Update("update Publishers set Name=#{name} where Id = #{id}")
     void updatePublisher(@Param("id") Integer id,@Param("name") String name);
-
+    //////Rating/////////////////////////////////////////////
+    @Select("select * from BookRatingExtend where BookId = #{bookId}")
+    @Results(value = {
+            @Result(id=true,column = "Id",property = "id"),
+            @Result(column = "BookId",property = "bookId"),
+            @Result(column = "LoginId",property = "userName"),
+            @Result(column = "UserId",property = "userId"),
+            @Result(column = "Rating",property = "rating"),
+            @Result(column = "Comment",property = "comment"),
+            @Result(column = "CreatedTime",property = "createdTime")
+    })
+    List<BookRating>quaryBookRatingByBookId(@Param("bookId")Integer bookId);
+    @Insert("insert into BookRatings(BookId,UserId,Rating,Comment,CreatedTime) values" +
+            "(#{bookId},#{userId},#{rating},#{comment},#{createdTime})")
+    void addBookRating(@Param("bookId")Integer bookId,@Param("userId")Integer userId,
+                       @Param("rating")Integer rating,@Param("comment")String comment,@Param("createdTime")String createdTime);
+    @Delete("delete from BookRatings where Id = #{id}")
+    void delBookRatingById(@Param("id")Integer id);
 }

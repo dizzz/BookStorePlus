@@ -96,6 +96,18 @@ public class AdminController {
         bookService.updateBook(book);
         return "redirect:/admin/bookmanage";
     }
+    @RequestMapping("rating")
+    public ModelAndView rating(Integer id){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("ratings",bookService.quaryBookRatingByBookId(id));
+        modelAndView.setViewName("/admin/book/rating");
+        return modelAndView;
+    }
+    @RequestMapping("delrating")
+    public String delrating(Integer ratingId,Integer bookId){
+        bookService.delBookRatingById(ratingId);
+        return "redirect:/admin/rating?id="+bookId;
+    }
     ///Category//////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping("categorymanage")
     public ModelAndView categorymanage(){

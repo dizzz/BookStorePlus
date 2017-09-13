@@ -45,10 +45,15 @@ public interface OrderMapper {
             @Result(column = "TotalPrice",property = "totalPrice")
     })
     List<Order> quaryOrderByUserId(@Param("userId")Integer userId);
-    @Select("select * from OrderBook where OrderID = #{orderId}")
+    @Select("select * from OrderBookExtend where OrderID = #{orderId}")
     @Results(value = {
             @Result(column = "BookID",property = "bookId"),
             @Result(column = "Quantity",property = "quantity"),
+            @Result(column = "Author",property = "author"),
+            @Result(column = "ISBN",property = "ISBN"),
+            @Result(column = "PublishDate",property = "publishDate"),
+            @Result(column = "PublishHouse",property = "publishHouse"),
+            @Result(column = "Title",property = "title")
     })
     List<CartItem>quaryOrderItemByOrderId(@Param("orderId")Integer orderId);
 }
