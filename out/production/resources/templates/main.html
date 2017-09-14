@@ -13,8 +13,8 @@
             background:#F1F1F1;
             padding-top:20px;
         }
-        h3{
-
+        .sidebar{
+            padding-top: 70px;
         }
     </style>
 </head>
@@ -27,7 +27,7 @@
                 <li th:each="book:${books}" class="new_container">
                     <div class="row">
                         <div class="col-md-3">
-                            <img th:src="@{'/image/'+${book.ISBN}+'.jpg'}" height="184" width="128">
+                            <a th:href="@{bookdetail(bookId=${book.id})}"><img th:src="@{'/image/'+${book.ISBN}+'.jpg'}" height="184" width="128"></a>
                         </div>
 
                         <div class="col-md-9">
@@ -51,8 +51,8 @@
             </div>
         </ul>
     </div>
-    <div class="col-md-4">
-        <div th:replace="common/layout::side"></div>
+    <div class="col-md-4 sidebar">
+        <div th:replace="common/layout::side" class="affix"></div>
     </div>
 </div>
 

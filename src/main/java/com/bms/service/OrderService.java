@@ -25,16 +25,16 @@ public class OrderService {
             orderMapper.addtoOrderBook(id,item.getBookId(),item.getQuantity(),item.getUnitPrice());
         }
     }
-    public List<Order> quaryAllOrders(){
-        return orderMapper.quaryAllOrders();
+    public List<Order> queryAllOrders(){
+        return orderMapper.queryAllOrders();
     }
-    public List<CartItem>quaryOrderItemByOrderId(Integer orderId){
-        return orderMapper.quaryOrderItemByOrderId(orderId);
+    public List<CartItem>queryOrderItemByOrderId(Integer orderId){
+        return orderMapper.queryOrderItemByOrderId(orderId);
     }
-    public Order quaryOrderById(Integer id){
-        return orderMapper.quaryOrderById(id);
+    public Order queryOrderById(Integer id){
+        return orderMapper.queryOrderById(id);
     }
-    public List<Order> quaryOrderByUserId(Integer userId){
-        return orderMapper.quaryOrderByUserId(userId);
+    public List<Order> queryOrderByUserId(Integer userId){
+        return orderMapper.queryOrderByUserId(userId);
     }
 }

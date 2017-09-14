@@ -47,7 +47,7 @@ public interface CartMapper {
             @Result(column = "Author", property = "author"),
             @Result(column = "UnitPrice", property = "unitPrice")
     })
-    List<CartItem> quaryCount(@Param("userId")Integer userId);
+    List<CartItem> queryCount(@Param("userId")Integer userId);
     @Delete("delete from TemporaryCart where UserId=#{userId} and BookId = #{bookId}")
     void delCartItemByUserIdAndBookId(@Param("userId")Integer userId,@Param("bookId")Integer bookId);
 }

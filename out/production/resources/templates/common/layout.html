@@ -1,11 +1,11 @@
 <nav th:fragment="header" class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">BookShopPlus</a>
+            <a class="navbar-brand" href="/home">BookShopPlus</a>
         </div>
 
         <div  class="collapse navbar-collapse">
-            <form class="navbar-form navbar-left" action="/" method="get" role="search">
+            <form class="navbar-form navbar-left" action="/main" method="get" role="search">
                 <div class="form-group">
                     <input type="text" class="form-control" name="key" placeholder="书名、作者、类别、ISBN">
                 </div>
@@ -52,21 +52,21 @@
     <ul class="pagination" th:if="${page.pages gt 7}" >
         <!-- 上一页 -->
         <li class="page-item" th:if="${page.isHasPreviousPage()}">
-            <a class="page-link" th:href="@{/(pageNum =${page.prePage},key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" aria-label="Previous">
+            <a class="page-link" th:href="@{/main(pageNum =${page.prePage},key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" aria-label="Previous">
                 <span aria-hidden="true">«</span>
             </a>
         </li>
 
         <!-- 首页 -->
         <li class="page-item" th:classappend="${(page.pageNum) eq 1} ? 'active' : ''" >
-            <a class="page-link" th:href="@{/(pageNum=1,key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}">1</a>
+            <a class="page-link" th:href="@{/main(pageNum=1,key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}">1</a>
         </li>
 
 
         <!-- 当前页面小于等于4 -->
         <li class="page-item" th:if="${(page.pageNum) le 4}" th:each="i : ${#numbers.sequence(2,5)}"
             th:classappend="${(page.pageNum) eq i} ? 'active' : ''" >
-            <a class="page-link" th:href="@{/(pageNum=${i},key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}">
+            <a class="page-link" th:href="@{/main(pageNum=${i},key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}">
                 <span th:text="${i}"></span>
             </a>
         </li>
@@ -85,7 +85,7 @@
         </li>
         <li class="page-item" th:if="${(page.pages-(page.pageNum)) le 3}" th:each="i : ${#numbers.sequence(page.pages-4, page.pages-1)}"
             th:classappend="${(page.pageNum) eq i} ? 'active' : ''" >
-            <a class="page-link" th:href="@{/(pageNum=${i},key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}">
+            <a class="page-link" th:href="@{/main(pageNum=${i},key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}">
                 <span th:text="${i}"></span>
             </a>
         </li>
@@ -98,13 +98,13 @@
             </a>
         </li>
         <li class="page-item" th:if="${((page.pageNum) gt 4) && ((page.pages-(page.pageNum)) gt 3 )}" >
-            <a class="page-link" th:href="@{/(pageNum=${page.pageNum} - 1,key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" th:attr="pageIndex=${page.pageNum}">[[${page.pageNum-1}]]</a>
+            <a class="page-link" th:href="@{/main(pageNum=${page.pageNum} - 1,key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" th:attr="pageIndex=${page.pageNum}">[[${page.pageNum-1}]]</a>
         </li>
         <li class="page-item active" th:if="${((page.pageNum) gt 4) && ((page.pages-(page.pageNum)) gt 3 )}">
-            <a class="page-link" th:href="@{/(pageNum=${page.pageNum},key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" th:attr="pageIndex=${page.pageNum} + 1">[[${page.pageNum}]]</a>
+            <a class="page-link" th:href="@{/main(pageNum=${page.pageNum},key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" th:attr="pageIndex=${page.pageNum} + 1">[[${page.pageNum}]]</a>
         </li>
         <li class="page-item" th:if="${((page.pageNum ) gt 4) && ((page.pages-(page.pageNum)) gt 3 )}">
-            <a class="page-link" th:href="@{/(pageNum=${page.pageNum} + 1,key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" th:attr="pageIndex=${page.pageNum} + 2">[[${page.pageNum + 1}]]</a>
+            <a class="page-link" th:href="@{/main(pageNum=${page.pageNum} + 1,key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" th:attr="pageIndex=${page.pageNum} + 2">[[${page.pageNum + 1}]]</a>
         </li>
 
         <li class="page-item disabled"  th:if="${((page.pageNum) gt 4) && ((page.pages-(page.pageNum)) gt 3 )}">
@@ -115,12 +115,12 @@
 
         <!-- 最后一页 -->
         <li class="page-item" th:classappend="${(page.pageNum) eq page.pages} ? 'active' : ''" >
-            <a class="page-link" th:href="@{/(pageNum=${page.Pages},key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" th:attr="pageIndex=${page.pages} - 1">[[${page.pages}]]</a>
+            <a class="page-link" th:href="@{/main(pageNum=${page.Pages},key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" th:attr="pageIndex=${page.pages} - 1">[[${page.pages}]]</a>
         </li>
 
         <!-- 下一页 -->
         <li class="page-item" th:if="${page.isHasNextPage()}">
-            <a class="page-link" th:href="@{/(pageNum=${page.pageNum} + 1,key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" th:attr="pageIndex=${page.pageNum} + 1" aria-label="Next">
+            <a class="page-link" th:href="@{/main(pageNum=${page.pageNum} + 1,key=${#httpServletRequest.getParameter('key')},tag=${#httpServletRequest.getParameter('tag')})}" th:attr="pageIndex=${page.pageNum} + 1" aria-label="Next">
                 <span aria-hidden="true">»</span>
             </a>
         </li>
@@ -134,7 +134,7 @@
         <h1>Tags</h1>
         <ul class="nav bs-docs-sidenav">
             <li th:each="category:${tags}">
-                <a th:href="@{/(tag=${category.id})}" th:text="${category.name}">具有响应式特性的嵌入内容</a>
+                <a th:href="@{/main(tag=${category.id})}" th:text="${category.name}">具有响应式特性的嵌入内容</a>
             </li>
         </ul>
         <a class="back-to-top" href="#top">

@@ -23,7 +23,7 @@ public class ReController {
     private CartService cartService;
 //    @RequestMapping("updatecart")
 //    public AjaxResponse postCustomer(@RequestBody CartRequest cartRequest,HttpServletRequest request) {
-//        Integer userId = userService.quaryWithUserName(request.getRemoteUser()).getId();
+//        Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
 //        cartService.adjustCnt(userId,cartRequest.getBookId(),cartRequest.isUp());
 //        AjaxResponse response = new AjaxResponse("done",cartRequest.isUp()?"up":"down");
 //        return response;

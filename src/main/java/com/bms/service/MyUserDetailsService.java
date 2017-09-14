@@ -10,10 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.bms.service.*;
 import com.bms.model.User;
-import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -28,7 +25,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user;
         try {
-            user = userService.quaryWithUserName(userName);
+            user = userService.queryUserByLoginId(userName);
         } catch (Exception e) {
             throw new UsernameNotFoundException("user select fail");
         }

@@ -1,10 +1,9 @@
 package com.bms.controller;
 
+//import com.bms.UserValidator;
 import com.bms.UserValidator;
-import com.bms.model.Book;
 import com.bms.model.User;
 import com.bms.service.*;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class Syscontroller {
@@ -54,19 +52,19 @@ public class Syscontroller {
         userValidator.validate(user, bindingResult);
         if(bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");
-            //TODO            错误信息
         }else {
             user.setRegisterIp(request);
             user.setRegisterTime();
-            userService.save(user);
+            userService.addUser(user);
             userDetailsService.autologin(user.getLoginId(), user.getPwdComfirm());
             modelAndView.setViewName("redirect:/main");
+            //注册成功页面 、
         }
         return modelAndView;
     }
     @RequestMapping("show")
     public String show(Model model){
-        model.addAttribute("users",userService.quaryAll());
+        model.addAttribute("users",userService.queryAll());
         return "show";
     }
 }

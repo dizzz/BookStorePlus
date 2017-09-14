@@ -27,7 +27,7 @@ public interface OrderMapper {
             @Result(column = "UserId",property = "userId"),
             @Result(column = "TotalPrice",property = "totalPrice")
     })
-    List<Order>quaryAllOrders();
+    List<Order>queryAllOrders();
     @Select("select * from Orders where Id = #{id}")
     @Results(value = {
             @Result(id=true,column = "Id",property = "id"),
@@ -35,7 +35,7 @@ public interface OrderMapper {
             @Result(column = "UserId",property = "userId"),
             @Result(column = "TotalPrice",property = "totalPrice")
     })
-    Order quaryOrderById(@Param("id")Integer id);
+    Order queryOrderById(@Param("id")Integer id);
 
     @Select("select * from Orders where UserId = #{userId}")
     @Results(value = {
@@ -44,7 +44,7 @@ public interface OrderMapper {
             @Result(column = "UserId",property = "userId"),
             @Result(column = "TotalPrice",property = "totalPrice")
     })
-    List<Order> quaryOrderByUserId(@Param("userId")Integer userId);
+    List<Order> queryOrderByUserId(@Param("userId")Integer userId);
     @Select("select * from OrderBookExtend where OrderID = #{orderId}")
     @Results(value = {
             @Result(column = "BookID",property = "bookId"),
@@ -55,5 +55,5 @@ public interface OrderMapper {
             @Result(column = "PublishHouse",property = "publishHouse"),
             @Result(column = "Title",property = "title")
     })
-    List<CartItem>quaryOrderItemByOrderId(@Param("orderId")Integer orderId);
+    List<CartItem>queryOrderItemByOrderId(@Param("orderId")Integer orderId);
 }

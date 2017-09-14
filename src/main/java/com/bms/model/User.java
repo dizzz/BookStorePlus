@@ -1,13 +1,17 @@
 package com.bms.model;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.AssertTrue;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class User {
-
-
     private Integer id;
+
     private String loginId;
     private String loginPwd;
     private String pwdComfirm;
@@ -19,9 +23,6 @@ public class User {
     private String registerIp;
     private String registerTime;
     private String userRole;
-
-
-
     public User(){}
     public User(String loginId,String loginPwd){
         this.loginId = loginId;

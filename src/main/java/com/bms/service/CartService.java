@@ -17,8 +17,8 @@ public class CartService {
         for(int i = 0; i< cartItem.getQuantity(); i++)
             cartMapper.addCartItem(cartItem.getCreateTime(), cartItem.getBookId(), cartItem.getUserId());
     }
-    public List<CartItem> quaryCount(Integer userId){
-        return cartMapper.quaryCount(userId);
+    public List<CartItem> queryCount(Integer userId){
+        return cartMapper.queryCount(userId);
     }
     public void addtoCartByUsername(String username,Integer bookid){
 

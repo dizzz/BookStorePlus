@@ -5,12 +5,61 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <title>show</title>
+    <style>
+        body { padding-top: 70px; }
+    </style>
 </head>
 <body>
-<form th:action="@{/login}" method="post">
-<input name ="username" type="text" class="form-control" placeholder="用户名"  required="required">
-<input name ="password" type="password" class="form-control" placeholder="密码" required="required">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
-</form>
+<header th:replace="common/layout::header"></header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-5 col-xs-offset-3">
+            <div class="col-sm-offset-2 col-sm-10">
+                <h1 class="text-center">登录</h1>
+            </div>
+            <br>
+            <form class="form-horizontal" th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="username" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input id="username" name ="username" type="text" class="form-control" placeholder="用户名"  required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                        <input id="password" name ="password" type="password" class="form-control" placeholder="密码" required="required">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="remember-me" value="true" th:checked="checked"/>Remember me
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <label  th:if="${param.error}">
+                            Invalid username and password.
+                        </label>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

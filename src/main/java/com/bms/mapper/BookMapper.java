@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.security.access.method.P;
 
 import java.util.List;
+import java.util.function.BinaryOperator;
+
 @Mapper
 public interface BookMapper {
     @Select("select * from BookView")
@@ -35,7 +37,7 @@ public interface BookMapper {
             @Result(column="Clicks", property="clicks"),
             @Result(column="PublishHouse", property="publishHouse")
     })
-    Book quaryBookById(@Param("id")Integer id);
+    Book queryBookById(@Param("id")Integer id);
 
     @Select("select * from BookView where Title like '%${qword}%' union " +
             "select * from BookView where Author like '%${qword}%' union " +
@@ -52,8 +54,35 @@ public interface BookMapper {
             @Result(column="Clicks", property="clicks"),
             @Result(column="PublishHouse", property="publishHouse")
     })
-    List<Book> queryByKey(@Param("qword")String qword);
-
+    List<Book> queryBooksByKey(@Param("qword")String qword);
+    @Select("select * from BookView order by Clicks desc")
+    @Results(value = {
+            @Result(id=true, column="Id", property="id"),
+            @Result(column="Title", property="title"),
+            @Result(column="Author", property="author"),
+            @Result(column="PublishDate", property="publishDate"),
+            @Result(column="ISBN", property="ISBN"),
+            @Result(column="Price", property="price"),
+            @Result(column="Description", property="description"),
+            @Result(column="TOC", property="TOC"),
+            @Result(column="Clicks", property="clicks"),
+            @Result(column="PublishHouse", property="publishHouse")
+    })
+    List<Book>queryBookOrderByClicks();
+    @Select("select * from BookView order by PublishDate desc")
+    @Results(value = {
+            @Result(id=true, column="Id", property="id"),
+            @Result(column="Title", property="title"),
+            @Result(column="Author", property="author"),
+            @Result(column="PublishDate", property="publishDate"),
+            @Result(column="ISBN", property="ISBN"),
+            @Result(column="Price", property="price"),
+            @Result(column="Description", property="description"),
+            @Result(column="TOC", property="TOC"),
+            @Result(column="Clicks", property="clicks"),
+            @Result(column="PublishHouse", property="publishHouse")
+    })
+    List<Book>queryBookOrderByPublishDate();
     @Select("select * from BookView where CategoryId = #{tag}")
     @Results(value={
             @Result(id=true, column="Id", property="id"),
@@ -67,7 +96,7 @@ public interface BookMapper {
             @Result(column="Clicks", property="clicks"),
             @Result(column="PublishHouse", property="publishHouse")
     })
-    List<Book>quaryByTag(@Param("tag")Integer tag);
+    List<Book> queryBooksByTag(@Param("tag")Integer tag);
 
     @Insert("insert into Books(Title, Author,PublisherId,PublishDate,ISBN,UnitPrice,ContentDescription,TOC,CategoryId,Clicks) " +
             "values (#{title}, #{author},#{publishid},#{publishdate},#{ISBN},#{price},#{decription},#{TOC},#{categoryid},0)")
@@ -84,20 +113,21 @@ public interface BookMapper {
     void delete(@Param("id") Integer id);
     @Update("update Books set ContentDescription=#{description} where Id = #{id}")
     void updateDescription(@Param("description")String description,@Param("id") Integer id);
-
+    @Update("update Books set Clicks = Clicks + 1 where Id=#{bookId}")
+    void addClicks(@Param("bookId")Integer bookId);
     ///Category///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Select("select * from Categories")
     @Results(value = {
             @Result(id=true,column = "Id",property = "id"),
             @Result(column = "Name",property = "name")
     })
-    List<Category>quaryAllCategories();
+    List<Category>queryAllCategories();
     @Select("select * from Categories where Id = #{id}")
     @Results(value = {
             @Result(id=true,column = "Id",property = "id"),
             @Result(column = "Name",property = "name")
     })
-    Category quaryCategoryById(@Param("id") Integer id);
+    Category queryCategoryById(@Param("id") Integer id);
     @Insert("insert into Categories(Name) values (#{name})")
     void addCategory(@Param("name") String name);
     @Delete("delete from Categories where Id = #{id}")
@@ -111,13 +141,13 @@ public interface BookMapper {
             @Result(id=true,column = "Id",property = "id"),
             @Result(column = "Name",property = "name")
     })
-    List<Publisher>quaryAllPublishers();
+    List<Publisher>queryAllPublishers();
     @Select("select * from Publishers where Id = #{id}")
     @Results(value = {
             @Result(id=true,column = "Id",property = "id"),
             @Result(column = "Name",property = "name")
     })
-    Publisher quaryPublisherById(@Param("id") Integer id);
+    Publisher queryPublisherById(@Param("id") Integer id);
     @Insert("insert into Publishers(Name) values (#{name})")
     void addPublisher(@Param("name") String name);
     @Delete("delete from Publishers where Id = #{id}")
@@ -135,7 +165,7 @@ public interface BookMapper {
             @Result(column = "Comment",property = "comment"),
             @Result(column = "CreatedTime",property = "createdTime")
     })
-    List<BookRating>quaryBookRatingByBookId(@Param("bookId")Integer bookId);
+    List<BookRating>queryBookRatingByBookId(@Param("bookId")Integer bookId);
     @Insert("insert into BookRatings(BookId,UserId,Rating,Comment,CreatedTime) values" +
             "(#{bookId},#{userId},#{rating},#{comment},#{createdTime})")
     void addBookRating(@Param("bookId")Integer bookId,@Param("userId")Integer userId,

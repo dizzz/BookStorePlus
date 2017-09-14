@@ -24,7 +24,7 @@ public interface UserMapper{
             @Result(column="UserRole",property = "userRole")
     })
     List<User> queryAll();
-    @Select("select * from Users where LoginId=#{loginId}")
+    @Select("select * from UserDetails where LoginId=#{loginId}")
     @Results(value={
             @Result(id=true, column="Id",property = "id"),
             @Result(column="LoginId",property = "loginId"),
@@ -39,7 +39,7 @@ public interface UserMapper{
             @Result(column="UserRole",property = "userRole")
     })
     User queryByLoginId(@Param("loginId")String loginid);
-    @Select("select * from Users where Id=#{id}")
+    @Select("select * from UserDetails where Id=#{id}")
     @Results(value={
             @Result(id=true, column="Id",property = "id"),
             @Result(column="LoginId",property = "loginId"),
@@ -54,21 +54,21 @@ public interface UserMapper{
             @Result(column="UserRole",property = "userRole")
     })
     User queryById(@Param("id")Integer id);
-    @Select("select * from UserDetails where LoginId = #{LoginId}")
-    @Results(value={
-            @Result(id=true, column="Id", property="id"),
-            @Result(column="LoginId", property="loginId"),
-            @Result(column="LoginPwd", property="loginPwd"),
-            @Result(column="UserRole",property = "userRole")
-    })
-    User queryUserInfoByUserName(@Param("LoginId") String userName);
+//    @Select("select * from UserDetails where LoginId = #{LoginId}")
+//    @Results(value={
+//            @Result(id=true, column="Id", property="id"),
+//            @Result(column="LoginId", property="loginId"),
+//            @Result(column="LoginPwd", property="loginPwd"),
+//            @Result(column="UserRole",property = "userRole")
+//    })
+//    User queryUserByLoginId(@Param("LoginId") String loginId);
     //根据用户名和密码查询用户是否存在
-    @Select("select * from UserDetails where LoginId = #{username} and LoginPwd = #{password}")
-    @Results(value={
-            @Result(id=true, column="username", property="username"),
-            @Result(column="password", property="password")
-    })
-    User queryUserInfoWithPwd(@Param("username") String userName, @Param("password") String password);
+//    @Select("select * from UserDetails where LoginId = #{username} and LoginPwd = #{password}")
+//    @Results(value={
+//            @Result(id=true, column="username", property="username"),
+//            @Result(column="password", property="password")
+//    })
+//    User queryUserInfoWithPwd(@Param("username") String userName, @Param("password") String password);
 
     //插入用户，用户注册
     @Insert("insert into Users (LoginId, LoginPwd,Mail,Address,Name,Phone,Birthday,RegisterIp,RegisterTime,UserRoleId,UserStateId) " +

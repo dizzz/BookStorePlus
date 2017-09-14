@@ -1,9 +1,10 @@
 package com.bms.controller;
 
-import com.bms.UserValidator;
+//import com.bms.UserValidator;
 import com.bms.model.*;
 import com.bms.service.*;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,8 +24,8 @@ public class BusinessController {
     @Autowired
     private MyUserDetailsService userDetailsService;
 
-    @Autowired
-    private UserValidator userValidator;
+//    @Autowired
+//    private UserValidator userValidator;
     @Autowired
     private BookService bookService;
     @Autowired
@@ -39,29 +39,31 @@ public class BusinessController {
     private Integer userId;
 
     private Book thisBook;//detail页面的书
-    @RequestMapping("home")
+    @RequestMapping(value={"/","home"})
     public ModelAndView  home(){
         ModelAndView  modelAndView = new ModelAndView();
-        bookList=bookService.quary(1,5);
-        categoryList = bookService.quaryAllCategories();
-        modelAndView.addObject("books",bookList);
+
+        bookList=bookService.query(1,5);
+        categoryList = bookService.queryAllCategories();
+        modelAndView.addObject("popularbooks",bookService.queryBookOrderByClicks(1,5));
+        modelAndView.addObject("newbooks",bookService.queryBookOrderByPublishDate(1,5));
         modelAndView.addObject("tags",categoryList);
         modelAndView.setViewName("home");
         return modelAndView;
     }
-    @RequestMapping(value = {"/","main"})
+    @RequestMapping("main")
     public String main(Model model, Integer pageNum, String key, Integer tag){
         if(pageNum==null) pageNum=1;
         if(key != null && key.length()!=0){
-            bookList=bookService.quaryBookByKey(key,pageNum,10  );
+            bookList=bookService.queryBookByKey(key,pageNum,10  );
         }else if(tag!=null){
-            bookList=bookService.quaryByTag(tag,pageNum,10);
+            bookList=bookService.queryByTag(tag,pageNum,10);
         }else{
-            bookList=bookService.quary(pageNum,10);
+            bookList=bookService.query(pageNum,10);
 
         }
         if(categoryList  == null){
-            categoryList = bookService.quaryAllCategories();
+            categoryList = bookService.queryAllCategories();
         }
         model.addAttribute("page",new PageInfo<Book>(bookList));
         model.addAttribute("books",bookList);
@@ -72,6 +74,7 @@ public class BusinessController {
     ////Book////////////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping("bookdetail")
     public ModelAndView bookdetail(Integer bookId){
+        bookService.addClicks(bookId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("bookdetail");
 //      如果当前booklist里有这本书，就直接用
@@ -80,12 +83,13 @@ public class BusinessController {
                 if(bookList.get(i).getId().intValue()  == bookId.intValue()){
                     thisBook = bookList.get(i);
                     modelAndView.addObject("book",thisBook);
+                    modelAndView.addObject("ratings",bookService.queryBookRatingByBookId(thisBook.getId()));
+
                     return modelAndView;
                 }
             }}
-        thisBook = bookService.quaryBookById(bookId);
-        modelAndView.addObject("ratings",bookService.quaryBookRatingByBookId(bookId));
-
+        thisBook = bookService.queryBookById(bookId);
+        modelAndView.addObject("ratings",bookService.queryBookRatingByBookId(bookId));
         modelAndView.addObject("book",thisBook);
         return modelAndView;
     }
@@ -93,16 +97,16 @@ public class BusinessController {
     @RequestMapping("addtocart")
     public ModelAndView addtocart(Integer bookId,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
-        cartService.addItem(new CartItem(userId,bookService.quaryBookById(bookId),1));
+        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
+        cartService.addItem(new CartItem(userId,bookService.queryBookById(bookId),1));
         modelAndView.setViewName("redirect:/main");
         return modelAndView;
     }
     @RequestMapping("/cart")
     public ModelAndView cart(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
-        cartItemList=cartService.quaryCount(userId);
+        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
+        cartItemList=cartService.queryCount(userId);
         int totalCnt = 0;
         double totalPrice = 0;
         for (int i = 0; i < cartItemList.size(); i++) {
@@ -119,21 +123,21 @@ public class BusinessController {
 
     @RequestMapping("delcartitem")
     public String delcartitem(HttpServletRequest request,Integer[] bookId){
-        userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
+        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
         for(int i = 0;i<bookId.length;i++)
             cartService.delCartItemByUserIdAndBookId(userId,bookId[i]);
         return "redirect:/cart";
     }
     @RequestMapping("updatecart")
     public String updatecart(HttpServletRequest request, HttpServletResponse response,Integer bookId, String type){
-        userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
+        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
         cartService.adjustCnt(userId,bookId,"up".equals(type));
         return "redirect:/cart";
     }
     @RequestMapping("confirm")
     public ModelAndView confirm(HttpServletRequest request,Integer[] bookId){
         ModelAndView modelAndView = new ModelAndView();
-        userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
+        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
         order = new Order(userId);
         String URL = request.getHeader("Referer");
         if(URL.indexOf("cart") != -1){
@@ -166,7 +170,7 @@ public class BusinessController {
         }
         if(order.getItems().size() == 0 && bookId!=null) {
             for(int i =0;i<bookId.length;i++)
-                order.add(new CartItem(bookService.quaryBookById(bookId[i])));
+                order.add(new CartItem(bookService.queryBookById(bookId[i])));
         }
         modelAndView.addObject("totalPrice",order.getTotalPrice());
         modelAndView.addObject("items",order.getItems());
@@ -186,12 +190,12 @@ public class BusinessController {
     }
     @RequestMapping("order")
     public ModelAndView order(HttpServletRequest request) {
-        userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
+        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
         ModelAndView modelAndView = new ModelAndView();
-        List<Order>orders = orderService.quaryOrderByUserId(userId);
+        List<Order>orders = orderService.queryOrderByUserId(userId);
         for(int i = 0;i<orders.size();i++){
             Order order = orders.get(i);
-            order.setItems(orderService.quaryOrderItemByOrderId(order.getId()));
+            order.setItems(orderService.queryOrderItemByOrderId(order.getId()));
         }
         modelAndView.addObject("orders",orders);
         return modelAndView;
@@ -199,16 +203,16 @@ public class BusinessController {
     @RequestMapping(value = "ratebook",method = RequestMethod.GET)
     public ModelAndView ratebook(Integer id){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("book",bookService.quaryBookById(id));
+        modelAndView.addObject("book",bookService.queryBookById(id));
         modelAndView.setViewName("ratebook");
         return modelAndView;
     }
     @RequestMapping(value = "ratebook",method = RequestMethod.POST)
     public ModelAndView doratebook(HttpServletRequest request,Integer bookId,Integer rating,String comment){
         ModelAndView modelAndView = new ModelAndView();
-        userId = (userId==null?userService.quaryWithUserName(request.getRemoteUser()).getId():userId);
+        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
         bookService.addBookRating(new BookRating(userId,bookId,rating,comment));
-        modelAndView.addObject("bookId",bookId);
+//        modelAndView.addObject("bookId",bookId);
         modelAndView.setViewName("redirect:/bookdetail?bookId="+bookId);
         return modelAndView;
     }

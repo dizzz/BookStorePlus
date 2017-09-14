@@ -3,7 +3,6 @@ package com.bms.controller;
 import com.bms.model.*;
 import com.bms.service.*;
 import com.github.pagehelper.PageInfo;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,23 +28,23 @@ public class AdminController {
     }
     @RequestMapping("/show")
     public String show(Model model){
-        model.addAttribute("users",userService.quaryAll());
+        model.addAttribute("users",userService.queryAll());
         return "admin/show";
     }
     @RequestMapping("/usermanage")
     public String usermanage(Model model){
-        model.addAttribute("users",userService.quaryAll());
+        model.addAttribute("users",userService.queryAll());
         return "admin/user/usermanage";
     }
     @RequestMapping("/deluser")
     public String deluser(HttpServletRequest request){
-        userService.deleteById(request.getParameter("id"));
+        userService.deleteUserById(request.getParameter("id"));
         return "redirect:/admin/usermanage";
     }
     @RequestMapping("/userdetail")
     public ModelAndView userdetail(Integer id){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user",userService.quaryById(id));
+        modelAndView.addObject("user",userService.queryUserById(id));
         modelAndView.setViewName("admin/user/userdetail");
         return modelAndView;
     }
@@ -55,9 +54,9 @@ public class AdminController {
         if(pageNum==null) pageNum=1;
         List<Book> list;
         if(key != null && key.length()!=0){
-            list=bookService.quaryBookByKey(key,pageNum,10  );
+            list=bookService.queryBookByKey(key,pageNum,10  );
         }else {
-            list = bookService.quary(pageNum, 20);
+            list = bookService.query(pageNum, 20);
         }
         model.addAttribute("page",new PageInfo<Book>(list));
         model.addAttribute("books",list);
@@ -65,8 +64,8 @@ public class AdminController {
     }
     @RequestMapping(value = "/addbook",method = RequestMethod.GET)
     public String addbook(Model model){
-        model.addAttribute("tags",bookService.quaryAllCategories());
-        model.addAttribute("publishers",bookService.quaryAllPublishers());
+        model.addAttribute("tags",bookService.queryAllCategories());
+        model.addAttribute("publishers",bookService.queryAllPublishers());
         model.addAttribute("book",new Book());
         return "admin/book/addbook";
     }
@@ -85,9 +84,9 @@ public class AdminController {
     @RequestMapping(value = "/modifybook",method = RequestMethod.GET)
     public ModelAndView modifybook(Integer id){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("tags",bookService.quaryAllCategories());
-        modelAndView.addObject("publishers",bookService.quaryAllPublishers());
-        modelAndView.addObject("book",bookService.quaryBookById(id));
+        modelAndView.addObject("tags",bookService.queryAllCategories());
+        modelAndView.addObject("publishers",bookService.queryAllPublishers());
+        modelAndView.addObject("book",bookService.queryBookById(id));
         modelAndView.setViewName("/admin/book/modifybook");
         return modelAndView;
     }
@@ -99,7 +98,7 @@ public class AdminController {
     @RequestMapping("rating")
     public ModelAndView rating(Integer id){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("ratings",bookService.quaryBookRatingByBookId(id));
+        modelAndView.addObject("ratings",bookService.queryBookRatingByBookId(id));
         modelAndView.setViewName("/admin/book/rating");
         return modelAndView;
     }
@@ -112,7 +111,7 @@ public class AdminController {
     @RequestMapping("categorymanage")
     public ModelAndView categorymanage(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("tags",bookService.quaryAllCategories());
+        modelAndView.addObject("tags",bookService.queryAllCategories());
         modelAndView.setViewName("/admin/category/categorymanage");
         return modelAndView;
     }
@@ -134,7 +133,7 @@ public class AdminController {
     @RequestMapping(value = "/modifycategory",method = RequestMethod.GET)
     public ModelAndView modifycategory(Integer id){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("category",bookService.quaryCategoryById(id));
+        modelAndView.addObject("category",bookService.queryCategoryById(id));
         modelAndView.setViewName("/admin/category/modifycategory");
         return modelAndView;
     }
@@ -148,7 +147,7 @@ public class AdminController {
     @RequestMapping("publishermanage")
     public ModelAndView publishermanage(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("publishers",bookService.quaryAllPublishers());
+        modelAndView.addObject("publishers",bookService.queryAllPublishers());
         modelAndView.setViewName("/admin/publisher/publishermanage");
         return modelAndView;
     }
@@ -170,7 +169,7 @@ public class AdminController {
     @RequestMapping(value = "/modifypublisher",method = RequestMethod.GET)
     public ModelAndView modifypublisher(Integer id){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("publisher",bookService.quaryPublisherById(id));
+        modelAndView.addObject("publisher",bookService.queryPublisherById(id));
         modelAndView.setViewName("/admin/publisher/modifypublisher");
         return modelAndView;
     }
@@ -183,15 +182,15 @@ public class AdminController {
     @RequestMapping("ordermanage")
     public ModelAndView ordermanage(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("orders",orderService.quaryAllOrders());
+        modelAndView.addObject("orders",orderService.queryAllOrders());
         modelAndView.setViewName("/admin/order/ordermanage");
         return modelAndView;
     }
     @RequestMapping("orderdetail")
     public ModelAndView orderdetail(Integer id){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("order",orderService.quaryOrderById(id));
-        modelAndView.addObject("items",orderService.quaryOrderItemByOrderId(id));
+        modelAndView.addObject("order",orderService.queryOrderById(id));
+        modelAndView.addObject("items",orderService.queryOrderItemByOrderId(id));
         modelAndView.setViewName("/admin/order/orderdetail");
         return modelAndView;
     }

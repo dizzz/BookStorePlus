@@ -1,13 +1,9 @@
 package com.bms.service;
 import com.bms.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 import com.bms.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,30 +11,23 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public boolean login(String userName, String password) {
-        User user = userMapper.queryUserInfoWithPwd(userName, password);
-        if(user == null) {
-            return false;
-        }
-        return true;
-    }
-    public List<User>quaryAll(){
+    public List<User>queryAll(){
         return userMapper.queryAll();
     }
-    public User quaryWithUserName(String userName){
-        return userMapper.queryUserInfoByUserName(userName);
+    public User queryUserByLoginId(String loginId){
+        return userMapper.queryByLoginId(loginId);
     }
-    public User quaryWithPWD(String UserName,String password){
-        return userMapper.queryUserInfoWithPwd(UserName,password);
-    }
-    public void save(User user){
+//    public User queryWithPWD(String UserName,String password){
+//        return userMapper.queryUserInfoWithPwd(UserName,password);
+//    }
+    public void addUser(User user){
         userMapper.insert(user.getLoginId(),user.getLoginPwd(),user.getAddress(),user.getMail(),user.getName(),
-                user.getPhone(),user.getBirthday(),user.getRegisterTime(),user.getRegisterTime());
+                user.getPhone(),user.getBirthday(),user.getRegisterIp(),user.getRegisterTime());
     }
-    public void deleteById(String id) {
+    public void deleteUserById(String id) {
         userMapper.deleteUser(id);
     }
-    public User quaryById(Integer id){
+    public User queryUserById(Integer id){
         return  userMapper.queryById(id);
     }
 
