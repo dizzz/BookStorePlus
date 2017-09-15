@@ -90,7 +90,8 @@ public class Book {
 
     public void setPublishDate(String publishDate) {
         int p = publishDate.indexOf(' ');
-        this.publishDate = publishDate.substring(0,p);
+        if(p == -1) this.publishDate = publishDate;
+        else this.publishDate = publishDate.substring(0,p);
     }
 
     public String getISBN() {

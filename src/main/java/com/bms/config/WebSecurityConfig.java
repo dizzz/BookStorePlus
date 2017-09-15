@@ -1,12 +1,10 @@
-package com.bms;
+package com.bms.config;
 
-import com.bms.MyAuthenticationProvider;
+import com.bms.auth.MyAuthenticationProvider;
 import com.bms.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,11 +12,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Configurable
 @EnableWebSecurity
@@ -30,11 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
 
     private MyUserDetailsService userDetailsService;
+    @Autowired
+    private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
                 authorizeRequests()
-                .antMatchers("/","/main","home","/bookdetail").permitAll()
+                .antMatchers("/","/main","home","/bookdetail","/defaultKaptcha").permitAll()
                 .antMatchers("/show").permitAll()
 
                 .antMatchers("/login").permitAll()
@@ -42,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAuthority("管理员").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/main")
+                .defaultSuccessUrl("/main").authenticationDetailsSource(authenticationDetailsSource)
 //                .usernameParameter("email")
 //                .passwordParameter("password")
                 .and().logout()
@@ -66,12 +65,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/image/**","/fonts/**");
     }
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.userDetailsService(userDetailsService());
-// ...
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth)
+//            throws Exception {
+//        auth.userDetailsService(userDetailsService());
+//// ...
+//    }
     @Override
     protected UserDetailsService userDetailsService() {
         return userDetailsService;

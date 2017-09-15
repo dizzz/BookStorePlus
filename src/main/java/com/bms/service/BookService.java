@@ -57,6 +57,10 @@ public class BookService {
                 book.getPublisherId(),book.getPublishDate(),book.getISBN(),book.getPrice(),
                 book.getDescription(),book.getTOC(),book.getCategoryId());
     }
+    public Book queryBookByISBN(String ISBN){
+        return bookMapper.queryBookByISBN(ISBN);
+    }
+
     public void addClicks(Integer bookId){
         bookMapper.addClicks(bookId);
     }

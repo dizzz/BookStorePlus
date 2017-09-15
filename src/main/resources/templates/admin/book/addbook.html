@@ -2,26 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta content="text/html;charset=UTF-8"/>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js" ></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <title>addbook</title>
 </head>
 <body>
-
 <form class="form-horizontal" th:action="@{/admin/addbook}"
-      th:object="${book}" method="post">`
+      th:object="${book}" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="title" class="col-sm-4 control-label">Title</label>
+        <label for="title" class="col-sm-4 control-label">封面</label>
+        <div class="col-sm-6">
+            <input type="file" name="cover"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="title" class="col-sm-4 control-label">书名</label>
+        <label th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="validation-message"></label>
         <div class="col-sm-6">
             <input type="text" class="form-control" th:field="*{title}" id="title" placeholder="Title">
         </div>
     </div>
     <div class="form-group">
         <label for="author" class="col-sm-4 control-label">Author/Translator</label>
+        <label th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="validation-message"></label>
         <div class="col-sm-6">
             <input type="text" class="form-control" th:field="*{author}" id="author" placeholder="Author">
         </div>
     </div>
     <div>
-        <label class="col-sm-4 control-label">PublishHouse</label>
+        <label class="col-sm-4 control-label">出版社</label>
         <div class="col-sm-6">
             <select class="form-control" th:field="*{publisherId}">
                 <option th:each="publisher:${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">1</option>
@@ -30,18 +40,21 @@
     </div>
     <div class="form-group">
         <label for="ISBN" class="col-sm-4 control-label">ISBN</label>
+        <label th:if="${#fields.hasErrors('ISBN')}" th:errors="*{ISBN}" class="validation-message"></label>
+
         <div class="col-sm-6">
-            <input type="text" class="form-control" th:field="*{ISBN}" id= "ISBN" placeholder="Price">
+            <input type="text" class="form-control" th:field="*{ISBN}" id= "ISBN" placeholder="ISBN">
         </div>
     </div>
     <div class="form-group">
-        <label for="price" class="col-sm-4 control-label">Price</label>
+        <label for="price" class="col-sm-4 control-label">价格</label>
+        <label th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="validation-message"></label>
         <div class="col-sm-6">
             <input type="text" class="form-control" th:field="*{price}" id= "price" placeholder="Price">
         </div>
     </div>
     <div>
-        <label class="col-sm-4 control-label">Category</label>
+        <label class="col-sm-4 control-label">分类</label>
         <div class="col-sm-6">
             <select class="form-control" th:field="*{categoryId}">
                 <option th:each="category:${tags}" th:value="${category.id}" th:text="${category.name}">1</option>
@@ -49,7 +62,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="date"  class="col-sm-4 control-label">Date</label>
+        <label for="date"  class="col-sm-4 control-label">出版日期</label>
         <div class="input-group date form_date col-sm-offset-4 col-sm-6" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
             <input class="form-control" size="16" type="text" th:field="*{publishDate}" readonly>
             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -58,11 +71,11 @@
         <input type="hidden" id="date" value="" /><br/>
     </div>
     <div class="form-group">
-        <label class="col-sm-4 control-label">Description</label>
+        <label class="col-sm-4 control-label">简介</label>
         <textarea th:field="*{description}" class="col-sm-6" rows="5"></textarea>
     </div>
     <div class="form-group">
-        <label class="col-sm-4 control-label">Content</label>
+        <label class="col-sm-4 control-label">目录</label>
         <textarea th:field="*{TOC}" class="col-sm-6" rows="5"></textarea>
     </div>
     <div class="form-group">

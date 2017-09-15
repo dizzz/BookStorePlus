@@ -1,4 +1,4 @@
-package com.bms;
+package com.bms.auth;
 
 import com.bms.service.UserService;
 import com.bms.model.User;

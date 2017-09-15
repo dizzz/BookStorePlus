@@ -17,66 +17,97 @@
         html,
 
         body {
-
             padding-top: 20px;
-
         }
-
-
+        .sidebar{
+            padding-top: 70px;
+        }
     </style>
 </head>
 <body>
 <header th:replace="common/layout::header"></header>
-<div class="col-md-2">
-    <div class="col-md-10">
-        <ul class="list-inline">
-            <div class="new_container1">
-                <li>
+<div class="col-md-9">
+    <ul class="list-inline">
+        <div class="new_container1">
+            <li>
+                <div class="row">
 
-                    <div class="row">
+                    <h3 id="title" th:text="${book.title}"> 私语书（插图珍藏版）
+                        <div class="clear"></div>
+                    </h3>
+                    <br>
+                    <div class="little_box">
+                        <div class="col-md-3">
 
-                        <h3 th:text="${book.title}"> 私语书（插图珍藏版）
-                            <div class="clear"></div>
-                        </h3>
-                        <br>
-                        <div class="little_box">
-                            <div class="col-md-3">
-
-                                <img th:src="@{'/image/'+${book.ISBN}+'.jpg'}" height="184" width="130">
-                            </div>
-
-                            <div class="col-md-9">
-                                <h4>作者: <span th:text="${book.author}"></span></h4>
-                                <h4>出版社: <span th:text="${book.publishHouse}"></span></h4>
-                                <h4>出版日期: <span th:text="${book.publishDate}"></span></h4>
-                                <h4>价格:<span th:text="${book.price}"></span></h4>
-                                <h4>ISBN: <span th:text="${book.ISBN}"></span></h4>
-
-                                <p>
-                                <form>
-
-                                    <button type="submit" class="btn btn-primary btn-sm" name="bookId" th:value="${book.id}" formaction="/confirm">购 买</button>
-                                    <button type="submit" class="btn btn-default btn-sm" name="bookId" th:value="${book.id}" formaction="/addtocart">加入购物车</button>
-                                </form>
-                                </p>
-                                <br>
-
-                            </div>
+                            <img th:src="@{'/image/'+${book.ISBN}+'.jpg'}" height="184" width="130">
                         </div>
-                        <h5>----内容简介-----</h5>
-                        <p th:text="${book.description}"></p>
-                        <h5>........评论.........</h5>
-                        <div th:each="bookRating:${ratings}">
-                            <p>————————————————————————————————————————————<p>
-                            <p>评论日期:<span th:text="${bookRating.createdTime}"></span>  用户id <span th:text="${bookRating.userName}"></span>  评分 <span th:text="${bookRating.rating}"></span></p>
-                            <p class="lead" th:text="${bookRating.comment}"></p>
+
+                        <div class="col-md-9">
+                            <h4>作者: <span th:text="${book.author}"></span></h4>
+                            <h4>出版社: <span th:text="${book.publishHouse}"></span></h4>
+                            <h4>出版日期: <span th:text="${book.publishDate}"></span></h4>
+                            <h4>价格:<span th:text="${book.price}"></span></h4>
+                            <h4>ISBN: <span th:text="${book.ISBN}"></span></h4>
+
+                            <p>
+                            <form>
+
+                                <button type="submit" class="btn btn-primary btn-sm" name="bookId" th:value="${book.id}" formaction="/confirm">购 买</button>
+                                <button type="submit" class="btn btn-default btn-sm" name="bookId" th:value="${book.id}" formaction="/addtocart">加入购物车</button>
+                            </form>
+                            </p>
+                            <br>
+
                         </div>
                     </div>
-                </li>
-            </div>
-            <br>
+                    <h5 id="description">-----内容简介-----</h5>
+                    <p th:text="${book.description}"></p>
+
+
+                    <h5 id="comment">-----评论-----</h5>
+                    <div class="col-md-offset-5" th:unless="${not #lists.isEmpty(ratings)}">
+                        <label class="col-md-offset-1">暂无评论</label>
+                    </div>
+                    <div th:each="bookRating:${ratings}">
+                        <p>————————————————————————————————————————————<p>
+                        <p th:with="i=${bookRating.rating}"><strong>评论时间:</strong><span th:text="${bookRating.createdTime}"></span>  <strong>用户id</strong> <span th:text="${bookRating.userName}"></span>
+                        <strong>评分</strong> <span th:text="${bookRating.rating}"></span>
+                        </p>
+                        <p class="lead" th:text="${bookRating.comment}"></p>
+                    </div>
+                    <h5 id="toc">-----目录-----</h5>
+                    <p th:utext="${book.TOC}"></p>
+
+                </div>
+            </li>
+        </div>
+        <br>
+    </ul>
+</div>
+
+<div class="col-md-3">
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix sidebar">
+        <ul class="nav bs-docs-sidenav">
+
+            <li>
+                <a href="#description">简介</a>
+
+            </li>
+            <li>
+                <a href="#comment">评论</a>
+
+            </li>
+            <li>
+                <a href="#toc">目录</a>
+            </li>
+
         </ul>
-    </div>
+        <a class="back-to-top" href="#top">
+            返回顶部
+        </a>
+
+
+    </nav>
 </div>
 </body>
 </html>

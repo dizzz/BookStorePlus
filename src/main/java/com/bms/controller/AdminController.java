@@ -1,16 +1,25 @@
 
 package com.bms.controller;
+import com.bms.auth.BookValidator;
 import com.bms.model.*;
 import com.bms.service.*;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -22,6 +31,10 @@ public class AdminController {
     private BookService bookService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private BookValidator bookValidator;
+    private List<Category>tags;
+    private List<Publisher>publishers;
     @RequestMapping(value = {"/","home"})
     public String home(){
         return "admin/home";
@@ -64,15 +77,61 @@ public class AdminController {
     }
     @RequestMapping(value = "/addbook",method = RequestMethod.GET)
     public String addbook(Model model){
-        model.addAttribute("tags",bookService.queryAllCategories());
-        model.addAttribute("publishers",bookService.queryAllPublishers());
+        tags = bookService.queryAllCategories();
+        publishers = bookService.queryAllPublishers();
+        model.addAttribute("tags",tags);
+        model.addAttribute("publishers",publishers);
         model.addAttribute("book",new Book());
         return "admin/book/addbook";
     }
-    //    TODO
-//    不能添加已有图书，添加成功提示
     @RequestMapping(value = "/addbook",method = RequestMethod.POST)
-    public String addbook(Book book,Model model){
+    public String addbook(@ModelAttribute("book")Book book, BindingResult bindingResult, HttpServletRequest request,MultipartHttpServletRequest multiReq,Model model){
+        bookValidator.validate(book,bindingResult);
+        MultipartFile file = multiReq.getFile("cover");
+        //TODO
+//并没有上传文件
+        if(bindingResult.hasErrors() || file == null){
+            model.addAttribute("tags",tags);
+            model.addAttribute("publishers",publishers);
+            return "admin/book/addbook";
+        }
+        String uploadFilePath = file.getOriginalFilename();
+        String uploadFileName = book.getISBN();
+        String uploadFileSuffix = uploadFilePath.substring(
+                uploadFilePath.indexOf('.') + 1, uploadFilePath.length());
+        FileOutputStream fos = null;
+        FileInputStream fis = null;
+        try {
+            fis = (FileInputStream) multiReq.getFile("cover").getInputStream();
+            String filePath = request.getSession().getServletContext().getRealPath("WEB-INF/classes/static/image/");
+            fos = new FileOutputStream(new File(filePath + uploadFileName
+                    + ".")
+                    + uploadFileSuffix.toLowerCase());
+            byte[] temp = new byte[1024];
+            int i = fis.read(temp);
+            while (i != -1){
+                fos.write(temp,0,temp.length);
+                fos.flush();
+                i = fis.read(temp);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         bookService.addBook(book);
         return "redirect:/admin/bookmanage";
     }

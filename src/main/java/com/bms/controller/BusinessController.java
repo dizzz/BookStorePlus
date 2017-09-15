@@ -1,6 +1,6 @@
 package com.bms.controller;
 
-//import com.bms.UserValidator;
+//import com.bms.auth.UserValidator;
 import com.bms.model.*;
 import com.bms.service.*;
 
@@ -84,7 +84,6 @@ public class BusinessController {
                     thisBook = bookList.get(i);
                     modelAndView.addObject("book",thisBook);
                     modelAndView.addObject("ratings",bookService.queryBookRatingByBookId(thisBook.getId()));
-
                     return modelAndView;
                 }
             }}

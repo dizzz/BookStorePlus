@@ -38,7 +38,20 @@ public interface BookMapper {
             @Result(column="PublishHouse", property="publishHouse")
     })
     Book queryBookById(@Param("id")Integer id);
-
+    @Select("select * from BookView where ISBN = #{ISBN}")
+    @Results(value={
+            @Result(id=true, column="Id", property="id"),
+            @Result(column="Title", property="title"),
+            @Result(column="Author", property="author"),
+            @Result(column="PublishDate", property="publishDate"),
+            @Result(column="ISBN", property="ISBN"),
+            @Result(column="Price", property="price"),
+            @Result(column="Description", property="description"),
+            @Result(column="TOC", property="TOC"),
+            @Result(column="Clicks", property="clicks"),
+            @Result(column="PublishHouse", property="publishHouse")
+    })
+    Book queryBookByISBN(@Param("ISBN")String ISBN);
     @Select("select * from BookView where Title like '%${qword}%' union " +
             "select * from BookView where Author like '%${qword}%' union " +
             "select * from BookView where ISBN = #{qword}")

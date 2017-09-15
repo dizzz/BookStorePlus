@@ -1,13 +1,12 @@
-package com.bms;
+package com.bms.auth;
 
-import ch.qos.logback.classic.pattern.SyslogStartConverter;
+import com.bms.auth.CustomWebAuthenticationDetails;
+import com.bms.auth.ImageCodeIllegalException;
 import com.bms.model.MyUserDetails;
-import com.bms.model.User;
 import com.bms.service.MyUserDetailsService;
-//import com.bms.service.UserRoleService;
-import com.bms.service.UserService;
+import groovy.util.logging.Log4j;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,21 +17,28 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
-//    @Autowired
-//    private UserService userService;
+    private static  final transient Logger log = Logger.getLogger(Log4j.class);
     @Autowired
     private MyUserDetailsService userService;
-//    @Autowired
-//    private UserRoleService userRoleService;
     /**
      * 自定义验证方式
      */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();
+        String imageCode = details.getImageCode();
+        String session_imageCode = details.getSession_imageCode();
+        log.info(imageCode + " " + session_imageCode);
+        if(imageCode == null || session_imageCode == null) {
+            throw new ImageCodeIllegalException("验证码错误");
+        }
+
+        if(!imageCode.equals(session_imageCode)) {
+            throw new ImageCodeIllegalException("验证码错误");
+        }
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
         MyUserDetails user;
@@ -47,7 +53,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         return new UsernamePasswordAuthenticationToken(user, password,authorities);
     }
-    
+
     @Override
     public boolean supports(Class<?> arg0) {
         return true;
