@@ -21,6 +21,7 @@ public interface BookMapper {
             @Result(column="TOC", property="TOC"),
             @Result(column="Clicks", property="clicks"),
             @Result(column="PublishHouse", property="publishHouse")
+
     })
     List<Book> queryAllBooks();
 
@@ -36,6 +37,7 @@ public interface BookMapper {
             @Result(column="TOC", property="TOC"),
             @Result(column="Clicks", property="clicks"),
             @Result(column="PublishHouse", property="publishHouse")
+
     })
     Book queryBookById(@Param("id")Integer id);
     @Select("select * from BookView where ISBN = #{ISBN}")
@@ -49,7 +51,7 @@ public interface BookMapper {
             @Result(column="Description", property="description"),
             @Result(column="TOC", property="TOC"),
             @Result(column="Clicks", property="clicks"),
-            @Result(column="PublishHouse", property="publishHouse")
+            @Result(column="PublishHouse", property="publishHouse"),
     })
     Book queryBookByISBN(@Param("ISBN")String ISBN);
     @Select("select * from BookView where Title like '%${qword}%' union " +

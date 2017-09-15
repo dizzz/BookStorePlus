@@ -17,8 +17,6 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private UserRoleService userRoleService;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Override
@@ -39,14 +37,14 @@ public class MyUserDetailsService implements UserDetailsService {
             }
         }
     }
-
-    public void autologin(String username, String password) {
-        UserDetails userDetails = loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        }
-    }
+//TODO  加了验证码 后不能autologin
+//    public void autologin(String username, String password) {
+//        UserDetails userDetails = loadUserByUsername(username);
+//        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+//        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+//
+//        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
+//            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+//        }
+//    }
 }

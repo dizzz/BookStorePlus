@@ -21,7 +21,9 @@ public interface UserMapper{
             @Result(column="Birthday",property = "birthday"),
             @Result(column="RegisterIp",property = "registerIp"),
             @Result(column="RegisterTime",property = "registerTime"),
-            @Result(column="UserRole",property = "userRole")
+            @Result(column="UserRole",property = "userRole"),
+            @Result(column="UserState",property = "userState")
+
     })
     List<User> queryAll();
     @Select("select * from UserDetails where LoginId=#{loginId}")
@@ -36,7 +38,9 @@ public interface UserMapper{
             @Result(column="Birthday",property = "birthday"),
             @Result(column="RegisterIp",property = "registerIp"),
             @Result(column="RegisterTime",property = "registerTime"),
-            @Result(column="UserRole",property = "userRole")
+            @Result(column="UserRole",property = "userRole"),
+            @Result(column="UserState",property = "userState")
+
     })
     User queryByLoginId(@Param("loginId")String loginid);
     @Select("select * from UserDetails where Id=#{id}")
@@ -51,7 +55,9 @@ public interface UserMapper{
             @Result(column="Birthday",property = "birthday"),
             @Result(column="RegisterIp",property = "registerIp"),
             @Result(column="RegisterTime",property = "registerTime"),
-            @Result(column="UserRole",property = "userRole")
+            @Result(column="UserRole",property = "userRole"),
+            @Result(column="UserState",property = "userState")
+
     })
     User queryById(@Param("id")Integer id);
 
@@ -67,4 +73,6 @@ public interface UserMapper{
     void deleteUser(@Param("id") String id);
 //    TODO
 //    admin不能删admin
+    @Update("update Users set UserStateId = #{state} where Id = #{id}")
+    void updateUserState(@Param("id")Integer userId,@Param("state")Integer state);
 }

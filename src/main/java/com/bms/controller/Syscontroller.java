@@ -63,7 +63,7 @@ public class Syscontroller {
             user.setRegisterIp(request);
             user.setRegisterTime();
             userService.addUser(user);
-            userDetailsService.autologin(user.getLoginId(), user.getPwdComfirm());
+//            userDetailsService.autologin(user.getLoginId(), user.getPwdComfirm());
             modelAndView.setViewName("redirect:/main");
             //注册成功页面 、
         }

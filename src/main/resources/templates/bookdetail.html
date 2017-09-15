@@ -71,7 +71,7 @@
                     <div th:each="bookRating:${ratings}">
                         <p>————————————————————————————————————————————<p>
                         <p th:with="i=${bookRating.rating}"><strong>评论时间:</strong><span th:text="${bookRating.createdTime}"></span>  <strong>用户id</strong> <span th:text="${bookRating.userName}"></span>
-                        <strong>评分</strong> <span th:text="${bookRating.rating}"></span>
+                        <strong>评分</strong> <span th:each="i : ${#numbers.sequence(1, bookRating.rating)}"><span class="glyphicon glyphicon-star"></span></span>
                         </p>
                         <p class="lead" th:text="${bookRating.comment}"></p>
                     </div>

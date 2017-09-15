@@ -52,7 +52,7 @@ public class BusinessController {
         return modelAndView;
     }
     @RequestMapping("main")
-    public String main(Model model, Integer pageNum, String key, Integer tag){
+    public String main(HttpServletRequest request,Model model, Integer pageNum, String key, Integer tag){
         if(pageNum==null) pageNum=1;
         if(key != null && key.length()!=0){
             bookList=bookService.queryBookByKey(key,pageNum,10  );
@@ -68,6 +68,9 @@ public class BusinessController {
         model.addAttribute("page",new PageInfo<Book>(bookList));
         model.addAttribute("books",bookList);
         model.addAttribute("tags",categoryList);
+        User user = userService.queryUserByLoginId(request.getRemoteUser());
+        if(user !=null)
+            model.addAttribute("role",user.getUserRole());
 
         return  "main";
     }
@@ -92,6 +95,10 @@ public class BusinessController {
         modelAndView.addObject("book",thisBook);
         return modelAndView;
     }
+
+    //TODO
+//    购物车不能加
+
     ////CartItem////////////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping("addtocart")
     public ModelAndView addtocart(Integer bookId,HttpServletRequest request){

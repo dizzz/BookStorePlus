@@ -61,6 +61,14 @@ public class AdminController {
         modelAndView.setViewName("admin/user/userdetail");
         return modelAndView;
     }
+    @RequestMapping("/updateuserstate")
+    public String updateuserstate(Integer userId,String act){
+        if(userId != null && act != null){
+            userService.updateUserState(userId,"enable".equals(act)?1:2);
+        }
+        return "redirect:/admin/usermanage";
+    }
+
     ///BOOK////////////////////////////////////////////////////////////////////////////
     @RequestMapping("/bookmanage")
     public String bookmanage(Model model,Integer pageNum,String key){

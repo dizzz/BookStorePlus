@@ -45,10 +45,13 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         try{
             user = (MyUserDetails) userService.loadUserByUsername(username);
         }catch (UsernameNotFoundException e){
-            throw new BadCredentialsException("Username not found.");
+            throw new BadCredentialsException("没有找到用户名");
         }
         if (!password.equals(user.getLoginPwd())) {
-            throw new BadCredentialsException("Wrong password.");
+            throw new BadCredentialsException("密码错误");
+        }
+        if(user.getUserState() == 2){
+            throw new BadCredentialsException("用户无效");
         }
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         return new UsernamePasswordAuthenticationToken(user, password,authorities);

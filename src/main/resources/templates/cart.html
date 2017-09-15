@@ -26,76 +26,76 @@
 
     </style>
     <!--<script type="text/javascript">-->
-    <!--var flag = 0;-->
-    <!--$( document ).ready(function() {-->
+        <!--var flag = 0;-->
+        <!--$( document ).ready(function() {-->
 
-    <!--//            var url = window.location;-->
+            <!--var url = window.location;-->
 
-    <!--// SUBMIT FORM-->
-    <!--//            $("form").submit(function(event) {-->
-    <!--//                event.preventDefault();-->
-    <!--$(".adj").click(function(event) {-->
+<!--//     SUBMIT FORM-->
+            <!--$("form").submit(function(event) {-->
+                <!--event.preventDefault();-->
+<!--//                $(".adj").click(function(event) {-->
 
-    <!--event.preventDefault();-->
-    <!--ajaxPost();-->
-    <!--});-->
+<!--//                    event.preventDefault();-->
+                    <!--ajaxPost();-->
+<!--//                });-->
 
 
-    <!--function ajaxPost(){-->
-    <!--var t=$(this).parent().find('input');-->
-    <!--t.val(parseInt(t.val()));-->
-    <!--alert(t);-->
-    <!--var formData;-->
-    <!--if(flag==1) {-->
-    <!--formData = {-->
-    <!--bookId: t,-->
-    <!--up: true,-->
-    <!--}-->
-    <!--}else{-->
-    <!--formData = {-->
-    <!--bookId: t,-->
-    <!--up : false,-->
+                <!--function ajaxPost(){-->
+                    <!--var t=$(this).parent().find('input');-->
+                    <!--t.val(parseInt(t.val()));-->
+                    <!--alert(t);-->
+                    <!--var formData;-->
+                    <!--if(flag==1) {-->
+                        <!--formData = {-->
+                            <!--bookId: t,-->
+                            <!--up: true,-->
+                        <!--}-->
+                    <!--}else{-->
+                        <!--formData = {-->
+                            <!--bookId: t,-->
+                            <!--up : false,-->
 
-    <!--}-->
-    <!--}-->
+                        <!--}-->
+                    <!--}-->
 
-    <!--// DO POST-->
-    <!--$.ajax({-->
-    <!--type : "POST",-->
-    <!--contentType : "application/json",-->
-    <!--url : "/updatecart",-->
-    <!--data : JSON.stringify(formData),-->
-    <!--dataType : 'json',-->
-    <!--success : function(result) {-->
-    <!--if(result.status == "done"){-->
-    <!--if(result.data =="up") {-->
-    <!--var s = $("label#quantity").text()+1;-->
-    <!--$("#quantity").html(s);-->
-    <!--}else {-->
-    <!--var s = parseInt($("label#quantity").text())-1;-->
-    <!--$("#quantity").html(s);-->
-    <!--}-->
-    <!--}else{-->
-    <!--}-->
-    <!--console.log(result);-->
-    <!--},-->
-    <!--error : function(e) {-->
-    <!--alert("Error!")-->
-    <!--console.log("ERROR: ", e)-->
-    <!--}-->
-    <!--});-->
-    <!--resetData();-->
+                    <!--// DO POST-->
+                    <!--$.ajax({-->
+                        <!--type : "POST",-->
+                        <!--contentType : "application/json",-->
+                        <!--url : "/updatecart",-->
+                        <!--data : JSON.stringify(formData),-->
+                        <!--dataType : 'json',-->
+                        <!--success : function(result) {-->
+                            <!--if(result.status == "done"){-->
+                                <!--if(result.data =="up") {-->
+                                    <!--var s = $("label#quantity").text()+1;-->
+                                    <!--$("#quantity").html(s);-->
+                                <!--}else {-->
+                                    <!--var s = parseInt($("label#quantity").text())-1;-->
+                                    <!--$("#quantity").html(s);-->
+                                <!--}-->
+                            <!--}else{-->
+                            <!--}-->
+                            <!--console.log(result);-->
+                        <!--},-->
+                        <!--error : function(e) {-->
+                            <!--alert("Error!")-->
+                            <!--console.log("ERROR: ", e)-->
+                        <!--}-->
+                    <!--});-->
+                    <!--resetData();-->
 
-    <!--}-->
+                <!--}-->
 
-    <!--function resetData(){-->
-    <!--//                $("#firstname").val("");-->
-    <!--//                $("#lastname").val("");-->
-    <!--}-->
-    <!--})-->
+                <!--function resetData(){-->
+                    <!--//                $("#firstname").val("");-->
+                    <!--//                $("#lastname").val("");-->
+                <!--}-->
+            <!--})-->
     <!--</script>-->
-    <!--ajax好像不太work，延迟大，会刷新-->a
-    <!--2.0版本的ajax只能修改一个元素...因为id是唯一的.. -->
+    <!--ajax好像不太work，延迟大，会刷新a-->
+    <!--2.0版本的ajax只能修改一个元素...因为id是唯一的..-->
 </head>
 <body>
 <header th:replace="common/layout::header"></header>
@@ -167,3 +167,4 @@
 </div>
 </body>
 </html>
+

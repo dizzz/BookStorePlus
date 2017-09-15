@@ -30,5 +30,7 @@ public class UserService {
     public User queryUserById(Integer id){
         return  userMapper.queryById(id);
     }
-
+    public void updateUserState(Integer userId,Integer state){
+        userMapper.updateUserState(userId,state);
+    }
 }
