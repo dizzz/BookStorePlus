@@ -112,12 +112,59 @@ public interface BookMapper {
             @Result(column="PublishHouse", property="publishHouse")
     })
     List<Book> queryBooksByTag(@Param("tag")Integer tag);
-
+    @Select("select * from OrderBookExtend order by Quantity desc")
+    @Results(value = {
+            @Result(column = "BookId",property = "id"),
+            @Result(column="Title", property="title"),
+            @Result(column="Author", property="author"),
+            @Result(column="ISBN", property="ISBN"),
+            @Result(column="Price", property="price"),
+            @Result(column="Description", property="description"),
+            @Result(column="TOC", property="TOC"),
+            @Result(column="PublishDate", property="publishDate"),
+            @Result(column="Clicks", property="clicks"),
+            @Result(column="PublishHouse", property="publishHouse")
+    })
+    List<Book>queryBookOrderBySell();
+    @Select("select * from OrderBookExtend order by '%${order}%' desc")
+    @Results(value = {
+            @Result(column = "BookId",property = "id"),
+            @Result(column="Title", property="title"),
+            @Result(column="Author", property="author"),
+            @Result(column="ISBN", property="ISBN"),
+            @Result(column="Price", property="price"),
+            @Result(column="Description", property="description"),
+            @Result(column="TOC", property="TOC"),
+            @Result(column="PublishDate", property="publishDate"),
+            @Result(column="Clicks", property="clicks"),
+            @Result(column="PublishHouse", property="publishHouse")
+    })
+    List<Book>queryBookInOrder(@Param("order")String order);
+    @Select("select top 5 * from BookView where (BookView.CategoryId in (select OrderBookUser.CategoryId from OrderBookUser where OrderBookUser.userId = #{userId})" +
+            "            or BookView.Author in (select OrderBookUser.Author from OrderBookUser where OrderBookUser.userId = #{userId}))" +
+            "            and BookView.Id not in(select OrderBookUser.BookId from OrderBookUser where OrderBookUser.userId = #{userId})" +
+            "and BookView.Id not in(select TemporaryCart.BookId from TemporaryCart where TemporaryCart.UserId = #{userId})" +
+            "            order by Clicks desc")
+    @Results(value = {
+            @Result(column = "Id",property = "id"),
+            @Result(column="Title", property="title"),
+            @Result(column="Author", property="author"),
+            @Result(column="ISBN", property="ISBN"),
+            @Result(column="Price", property="price"),
+            @Result(column="Description", property="description"),
+            @Result(column="TOC", property="TOC"),
+            @Result(column="PublishDate", property="publishDate"),
+            @Result(column="Clicks", property="clicks"),
+            @Result(column="PublishHouse", property="publishHouse")
+    })
+    List<Book>queryRecomdBook(@Param("userId")Integer userId);
     @Insert("insert into Books(Title, Author,PublisherId,PublishDate,ISBN,UnitPrice,ContentDescription,TOC,CategoryId,Clicks) " +
             "values (#{title}, #{author},#{publishid},#{publishdate},#{ISBN},#{price},#{decription},#{TOC},#{categoryid},0)")
     void addBook(@Param("title") String title, @Param("author") String author, @Param("publishid") Integer publishid,
                 @Param("publishdate") String publishDate, @Param("ISBN")String ISBN,@Param("price") double price,@Param("decription")String description,
                 @Param("TOC")String toc,@Param("categoryid")Integer categoryid);
+
+
     @Update("update Books set Title=#{title}, Author=#{author},PublisherId=#{publishid},PublishDate=#{publishdate},ISBN=#{ISBN},UnitPrice=#{price}," +
             "ContentDescription=#{decription},TOC=#{TOC},CategoryId=#{categoryid} where Id = #{id}")
     void updateBookById(@Param("id")Integer id,@Param("title") String title, @Param("author") String author, @Param("publishid") Integer publishid,

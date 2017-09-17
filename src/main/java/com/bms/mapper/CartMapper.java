@@ -26,13 +26,14 @@ public interface CartMapper {
     List<CartItem> queryByUserId(@Param("userid")Integer userid);
     @Select("select UserId,BookId,BookTitle,Author,ISBN,UnitPrice,COUNT(BookId)as BookCnt from  CartView  where UserId = #{userId} and BookId = #{bookId} group by UserId,BookId,BookTitle,Author,ISBN,UnitPrice")
     @Results(value = {
-            @Result(id = true, column = "Id", property = "id"),
             @Result(column = "UserId", property = "userId"),
             @Result(column = "BookId", property = "bookId"),
-            @Result(column = "CreateTime", property = "createTime"),
             @Result(column = "BookTitle", property = "bookTitle"),
             @Result(column = "Author", property = "author"),
-            @Result(column = "UnitPrice", property = "unitPrice")
+            @Result(column = "ISBN", property = "ISBN"),
+            @Result(column = "UnitPrice", property = "unitPrice"),
+            @Result(column = "BookCnt",property = "quantity"),
+
     })
     CartItem queryByUserIdAndBookId(@Param("userId")Integer userId,@Param("bookId")Integer bookId);
 

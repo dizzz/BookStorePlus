@@ -6,6 +6,8 @@ import com.bms.service.*;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,28 +34,30 @@ public class BusinessController {
     private CartService cartService;
     @Autowired
     private OrderService orderService;
-    private List<Book>bookList;
-    private List<CartItem>cartItemList;
-    private List<Category>categoryList;
-    private Order order;
-    private Integer userId;
-
-    private Book thisBook;//detail页面的书
+//    private List<Book>bookList;
+//    private List<CartItem>cartItemList;
+//    private List<Category>categoryList;
+//    private Order order;
+//    private Integer userId;
+//    private Book thisBook;//detail页面的书
     @RequestMapping(value={"/","home"})
     public ModelAndView  home(){
         ModelAndView  modelAndView = new ModelAndView();
 
-        bookList=bookService.query(1,5);
-        categoryList = bookService.queryAllCategories();
         modelAndView.addObject("popularbooks",bookService.queryBookOrderByClicks(1,5));
         modelAndView.addObject("newbooks",bookService.queryBookOrderByPublishDate(1,5));
-        modelAndView.addObject("tags",categoryList);
+//        modelAndView.addObject("popularbooks",bookService.queryBookInOrder(1,5,"clicks"));
+
+//        modelAndView.addObject("newbooks",bookService.queryBookInOrder(1,5,"publishDate"));
+
+        modelAndView.addObject("tags",bookService.queryAllCategories());
         modelAndView.setViewName("home");
         return modelAndView;
     }
     @RequestMapping("main")
     public String main(HttpServletRequest request,Model model, Integer pageNum, String key, Integer tag){
         if(pageNum==null) pageNum=1;
+        List<Book>bookList;
         if(key != null && key.length()!=0){
             bookList=bookService.queryBookByKey(key,pageNum,10  );
         }else if(tag!=null){
@@ -62,17 +66,38 @@ public class BusinessController {
             bookList=bookService.query(pageNum,10);
 
         }
-        if(categoryList  == null){
-            categoryList = bookService.queryAllCategories();
-        }
         model.addAttribute("page",new PageInfo<Book>(bookList));
         model.addAttribute("books",bookList);
-        model.addAttribute("tags",categoryList);
+        model.addAttribute("tags",bookService.queryAllCategories());
         User user = userService.queryUserByLoginId(request.getRemoteUser());
         if(user !=null)
             model.addAttribute("role",user.getUserRole());
 
         return  "main";
+    }
+    @RequestMapping("/changeorder")
+    public ModelAndView changeorder(HttpServletRequest request,String order){
+        ModelAndView modelAndView = new ModelAndView();
+        List<Book>bookList;
+        System.out.println(order);
+        if("publishDate".equals(order)){
+            bookList = bookService.queryBookOrderByPublishDate(1,10);
+        }else if("clicks".equals(order)){
+            bookList = bookService.queryBookOrderByClicks(1,10);
+
+        }else if("sell".equals(order)){
+            bookList = bookService.queryBookOrderBySell(1,10);
+        }else{
+            bookList=bookService.query(1,10);
+        }
+        modelAndView.addObject("page",new PageInfo<Book>(bookList));
+        modelAndView.addObject("books",bookList);
+        modelAndView.addObject("tags",bookService.queryAllCategories());
+        User user = userService.queryUserByLoginId(request.getRemoteUser());
+        if(user !=null)
+            modelAndView.addObject("role",user.getUserRole());
+        modelAndView.setViewName("main");
+        return modelAndView;
     }
     ////Book////////////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping("bookdetail")
@@ -81,45 +106,34 @@ public class BusinessController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("bookdetail");
 //      如果当前booklist里有这本书，就直接用
-        if(bookList != null){
-            for (int i = 0;i<bookList.size();i++){
-                if(bookList.get(i).getId().intValue()  == bookId.intValue()){
-                    thisBook = bookList.get(i);
-                    modelAndView.addObject("book",thisBook);
-                    modelAndView.addObject("ratings",bookService.queryBookRatingByBookId(thisBook.getId()));
-                    return modelAndView;
-                }
-            }}
-        thisBook = bookService.queryBookById(bookId);
         modelAndView.addObject("ratings",bookService.queryBookRatingByBookId(bookId));
-        modelAndView.addObject("book",thisBook);
+        modelAndView.addObject("book",bookService.queryBookById(bookId));
         return modelAndView;
     }
 
-    //TODO
-//    购物车不能加
-
     ////CartItem////////////////////////////////////////////////////////////////////////////////////////////
-    @RequestMapping("addtocart")
-    public ModelAndView addtocart(Integer bookId,HttpServletRequest request){
+        @RequestMapping("addtocart")
+    public ModelAndView addtocart(Model model,Integer bookId,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
+        Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
         cartService.addItem(new CartItem(userId,bookService.queryBookById(bookId),1));
-        modelAndView.setViewName("redirect:/main");
+        modelAndView.setViewName("redirect:/bookdetail?bookId="+bookId);
         return modelAndView;
     }
     @RequestMapping("/cart")
     public ModelAndView cart(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
-        cartItemList=cartService.queryCount(userId);
+        Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
+        List<CartItem>cartItemList=cartService.queryCount(userId);
         int totalCnt = 0;
         double totalPrice = 0;
         for (int i = 0; i < cartItemList.size(); i++) {
-            totalCnt += cartItemList.get(i).getQuantity();
-            cartItemList.get(i).setTotalPrice();
-            totalPrice += cartItemList.get(i).getTotalPrice();
+            Integer cnt = cartItemList.get(i).getQuantity();
+            Double price = cartItemList.get(i).getUnitPrice();
+            totalCnt += cnt;
+            totalPrice += price * cnt;
         }
+        modelAndView.addObject("books",bookService.queryRecomdBook(userId));
         modelAndView.addObject("items",cartItemList);
         modelAndView.addObject("totalCnt",totalCnt);
         modelAndView.addObject("totalPrice",totalPrice);
@@ -129,51 +143,56 @@ public class BusinessController {
 
     @RequestMapping("delcartitem")
     public String delcartitem(HttpServletRequest request,Integer[] bookId){
-        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
+        Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
         for(int i = 0;i<bookId.length;i++)
             cartService.delCartItemByUserIdAndBookId(userId,bookId[i]);
         return "redirect:/cart";
     }
-    @RequestMapping("updatecart")
-    public String updatecart(HttpServletRequest request, HttpServletResponse response,Integer bookId, String type){
-        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
-        cartService.adjustCnt(userId,bookId,"up".equals(type));
-        return "redirect:/cart";
-    }
+//    @RequestMapping("updatecart")
+//    public String updatecart(HttpServletRequest request, HttpServletResponse response,Integer bookId, String type){
+//        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
+//        cartService.adjustCnt(userId,bookId,"up".equals(type));
+//        return "redirect:/cart";
+//    }
     @RequestMapping("confirm")
     public ModelAndView confirm(HttpServletRequest request,Integer[] bookId){
         ModelAndView modelAndView = new ModelAndView();
-        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
-        order = new Order(userId);
+        Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
+        Order order = new Order(userId);
         String URL = request.getHeader("Referer");
-        if(URL.indexOf("cart") != -1){
+        if(URL.indexOf("cart") != -1) {
             //从购物车购买
-            if(cartItemList != null && bookId != null) {
+            List<CartItem> cartItemList = cartService.queryCount(userId);
+
+            if (cartItemList != null && bookId != null) {
                 for (int i = 0; i < cartItemList.size(); i++) {
                     for (int j = 0; j < bookId.length; j++) {
                         if (cartItemList.get(i).getBookId().intValue() == bookId[j].intValue()) {
-                            order.add(cartItemList.get(i));
+                            order.add((cartItemList.get(i)));
                             break;
                         }
                     }
                 }
             }
-        }else if (URL.indexOf("bookdetail") != -1){
-            //从detail页购买
-            order.getItems().add(new CartItem(thisBook));
-        }else{
-            if(bookList != null){
-                for(int i = 0;i<bookList.size();i++){
-                    if(bookList.get(i).getId().intValue() == bookId[0]){
-                        //从主页购买
-                        order.add(new CartItem(bookList.get(i)));
-                        break;
-                    }
-                }
-
-            }
-            //否则
         }
+
+//
+//        }else if (URL.indexOf("bookdetail") != -1){
+//            //从detail页购买
+//            order.add(new CartItem(thisBook));
+//        }else{
+//            if(bookList != null){
+//                for(int i = 0;i<bookList.size();i++){
+//                    if(bookList.get(i).getId().intValue() == bookId[0]){
+//                        //从主页购买
+//                        order.add(new CartItem(bookList.get(i)));
+//                        break;
+//                    }
+//                }
+//
+//            }
+//            //否则
+//        }
         if(order.getItems().size() == 0 && bookId!=null) {
             for(int i =0;i<bookId.length;i++)
                 order.add(new CartItem(bookService.queryBookById(bookId[i])));
@@ -185,9 +204,14 @@ public class BusinessController {
         return modelAndView;
     }
     @RequestMapping("addorder")
-    public String addorder(){
-        if(order == null || userId == null)
+    public String addorder(HttpServletRequest request,Integer bookId[],Integer quantity[]){
+        if(bookId == null || quantity == null)
             return "redirect:/main";
+        Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
+        Order order = new Order(userId);
+        for(int i = 0;i<bookId.length;i++){
+            order.add(new CartItem(userId,bookService.queryBookById(bookId[i]),quantity[i]));
+        }
         orderService.addOrder(order);
         for(int i = 0;i<order.getItems().size();i++){
             cartService.delCartItemByUserIdAndBookId(userId,order.get(i).getBookId());
@@ -196,12 +220,14 @@ public class BusinessController {
     }
     @RequestMapping("order")
     public ModelAndView order(HttpServletRequest request) {
-        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
+        Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
+
         ModelAndView modelAndView = new ModelAndView();
         List<Order>orders = orderService.queryOrderByUserId(userId);
         for(int i = 0;i<orders.size();i++){
             Order order = orders.get(i);
             order.setItems(orderService.queryOrderItemByOrderId(order.getId()));
+            System.out.println(order.get(0).getUnitPrice());
         }
         modelAndView.addObject("orders",orders);
         return modelAndView;
@@ -215,13 +241,15 @@ public class BusinessController {
     }
     @RequestMapping(value = "ratebook",method = RequestMethod.POST)
     public ModelAndView doratebook(HttpServletRequest request,Integer bookId,Integer rating,String comment){
+        Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
         ModelAndView modelAndView = new ModelAndView();
-        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
         bookService.addBookRating(new BookRating(userId,bookId,rating,comment));
 //        modelAndView.addObject("bookId",bookId);
         modelAndView.setViewName("redirect:/bookdetail?bookId="+bookId);
         return modelAndView;
     }
 }
-//bookDetail bookId重复
-//TODO
+
+//
+//购物车到cofirm
+//confirm到add

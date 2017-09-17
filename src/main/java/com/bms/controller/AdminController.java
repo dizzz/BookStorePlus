@@ -96,8 +96,6 @@ public class AdminController {
     public String addbook(@ModelAttribute("book")Book book, BindingResult bindingResult, HttpServletRequest request,MultipartHttpServletRequest multiReq,Model model){
         bookValidator.validate(book,bindingResult);
         MultipartFile file = multiReq.getFile("cover");
-        //TODO
-//并没有上传文件
         if(bindingResult.hasErrors() || file == null){
             model.addAttribute("tags",tags);
             model.addAttribute("publishers",publishers);

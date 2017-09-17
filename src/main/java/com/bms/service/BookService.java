@@ -15,9 +15,24 @@ import java.util.List;
 public class BookService {
     @Autowired
     private BookMapper bookMapper;
-    public List<Book>query(int pagenum,int pagesize){
-        PageHelper.startPage(pagenum,pagesize);
+    public List<Book>query(int pagenum,int pagesize) {
+        PageHelper.startPage(pagenum, pagesize);
         return bookMapper.queryAllBooks();
+    }
+    public List<Book>queryBookInOrder(int pagenum,int pagesize,String type){
+        PageHelper.startPage(pagenum, pagesize);
+        String order;
+//        System.out.println(type);
+        if(type == null || "publishDate".equals(type)) {
+            order = "PublishDate";
+        }else if("sell".equals(type)){
+            order = "Quantity";
+        }else if("clicks".equals(type)){
+            order = "Clicks";
+        }else{
+            order = "PublishDate";
+        }
+        return bookMapper.queryBookInOrder(order);
     }
     public List<Book>queryAll(){
         return bookMapper.queryAllBooks();
@@ -36,12 +51,20 @@ public class BookService {
     }
     public List<Book>queryBookOrderByPublishDate(int pagenum,int pagesize){
         PageHelper.startPage(pagenum,pagesize);
-
         return bookMapper.queryBookOrderByPublishDate();
     }
+    public List<Book>queryBookOrderBySell(int pagenum,int pagesize){
+        PageHelper.startPage(pagenum,pagesize);
+        return bookMapper.queryBookOrderBySell();
+    }
+
     public List<Book>queryByTag(Integer tag,int pagenum,int pagesize){
         PageHelper.startPage(pagenum,pagesize);
         return bookMapper.queryBooksByTag(tag);
+    }
+    public List<Book>queryRecomdBook(Integer userId){
+//        PageHelper.startPage(1,5);
+        return bookMapper.queryRecomdBook(userId);
     }
 
     public void addBook(Book book){
@@ -60,7 +83,6 @@ public class BookService {
     public Book queryBookByISBN(String ISBN){
         return bookMapper.queryBookByISBN(ISBN);
     }
-
     public void addClicks(Integer bookId){
         bookMapper.addClicks(bookId);
     }

@@ -33,20 +33,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.
                 authorizeRequests()
-                .antMatchers("/","/main","home","/bookdetail","/defaultKaptcha").permitAll()
+                .antMatchers("/","/main","/home","/bookdetail","/defaultKaptcha").permitAll()
                 .antMatchers("/show").permitAll()
-
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/admin/**").hasAuthority("管理员").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/main").authenticationDetailsSource(authenticationDetailsSource)
+                .defaultSuccessUrl("/home").authenticationDetailsSource(authenticationDetailsSource)
 //                .usernameParameter("email")
 //                .passwordParameter("password")
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/main").and().exceptionHandling()
+                .logoutSuccessUrl("/home").and().exceptionHandling()
                 .accessDeniedPage("/access-denied")
                 .and().rememberMe()
                 .rememberMeParameter("remember-me").key("key")
@@ -77,5 +76,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
-//TODO
-//验证码

@@ -22,7 +22,7 @@ public class Order {
     }
     public void add(CartItem cartItem){
         this.items.add(cartItem);
-        totalPrice += cartItem.getTotalPrice();
+        totalPrice += cartItem.getUnitPrice() * cartItem.getQuantity();
     }
     public CartItem get(int i){
         return this.items.get(i);

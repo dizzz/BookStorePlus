@@ -52,6 +52,8 @@ public interface OrderMapper {
             @Result(column = "Author",property = "author"),
             @Result(column = "ISBN",property = "ISBN"),
             @Result(column = "PublishDate",property = "publishDate"),
+            @Result(column = "Price",property = "unitPrice"),
+
             @Result(column = "PublishHouse",property = "publishHouse"),
             @Result(column = "Title",property = "title")
     })

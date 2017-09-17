@@ -2,13 +2,13 @@ package com.bms.model;
 
 public class AjaxResponse {
     private String status;
-    private String data;
+    private Object data;
 
     public AjaxResponse() {
 
     }
 
-    public AjaxResponse(String status, String data) {
+    public AjaxResponse(String status, Object data) {
         this.status = status;
         this.data = data;
     }
@@ -21,12 +21,11 @@ public class AjaxResponse {
         this.status = status;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
-
 }

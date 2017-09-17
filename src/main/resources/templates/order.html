@@ -13,20 +13,71 @@
     <script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
     <script type="text/javascript" src="js/bootstrap.min.js" ></script>
     <title>My Orders</title>
+    <style>
+        body {
+            padding-top:50px;
+        }
+    </style>
 </head>
 <body>
-<ul th:if="${not #lists.isEmpty(orders)}">
-        <div th:each="order:${orders}">
-            <p th:text="${order.id} + '/' + ${order.totalPrice}"></p>
-            <form th:with="items=${order.items}">
-                <div th:each="cartItem:${items}">
-                    <p th:text="${cartItem.title}"></p>
-                    <a th:href="@{/ratebook(id=${cartItem.bookId})}">评论</a>
-                    <p th:text="${cartItem.quantity}"></p>
+<header th:replace="common/layout::header"></header>
+<!--<ul th:if="${not #lists.isEmpty(orders)}">-->
+<!--<div th:each="order:${orders}">-->
+<!--<p th:text="${order.id} + '/' + ${order.totalPrice}"></p>-->
+<!--<form th:with="items=${order.items}">-->
+<!--<div th:each="cartItem:${items}">-->
+<!--<p th:text="${cartItem.title}"></p>-->
+<!--<a th:href="@{/ratebook(id=${cartItem.bookId})}">评论</a>-->
+<!--<p th:text="${cartItem.quantity}"></p>-->
 
-                </div>
-            </form>
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+<!--</ul>-->
+<div class="col-md-8 col-md-offset-2">
+    <h3>订单
+        <div class="clear"></div>
+    </h3>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div th:each="order:${orders}" class="panel panel-default">
+            <div class="panel-heading" role="tab" th:id="${'heading'+order.id}">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" th:href="'#collapse'+${order.id}" aria-expanded="true" aria-controls="collapseOne"
+                       th:text="'订单号'+${order.id} + ' 订单时间' + ${order.orderDate}+'总价'+${order.totalPrice}">
+                        <label>订单号<span th:text="${order.id}"></span></label>
+                        <label> 订单时间<span th:text="${order.orderDate}"></span></label>
+                        <label> 总价<span th:text="${order.totalPrice}"></span></label>
+                    </a>
+                </h4>
+            </div>
+            <div th:id="'collapse'+${order.id}" class="panel-collapse collapse in" role="tabpanel" th:attr="aria-labelledby='heading'+${order.id}">
+                <!--<div class="list-group" th:with="items=${order.items}">-->
+                <!--<div th:each="cartItem:${items}">-->
+                <!--<label th:text=""></label>-->
+                <!--<span th:text=""></span>-->
+                <!--<span th:text=""> </span>-->
+                <!--<a ></a>-->
+                <!--</div>-->
+                <!--Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.-->
+
+                <!--</div>-->
+                <table class="table" th:with="items=${order.items}">
+                    <tr>
+                        <td>书名 </td>
+                        <td>单价</td>
+                        <td>数量</td>
+                        <td></td>
+                    </tr>
+                    <tr th:each="cartItem:${items}">
+                        <td th:text="${cartItem.title}"></td>
+                        <td th:text="${cartItem.unitPrice}"></td>
+                        <td th:text="${cartItem.quantity}"></td>
+                        <td><a th:href="@{/ratebook(id=${cartItem.bookId})}">评论</a></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-</ul>
+    </div>
+</div>
 </body>
 </html>
