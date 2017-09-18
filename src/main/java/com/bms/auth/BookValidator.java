@@ -11,7 +11,6 @@ import org.springframework.validation.Validator;
 @Component
 public class BookValidator implements Validator {
     @Autowired
-
     private BookService bookService;
     @Override
     public boolean supports(Class<?> aClass) {

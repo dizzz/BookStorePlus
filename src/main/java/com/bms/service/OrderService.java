@@ -1,6 +1,7 @@
 package com.bms.service;
 
 import com.bms.mapper.OrderMapper;
+import com.bms.model.Book;
 import com.bms.model.CartItem;
 import com.bms.model.Order;
 import com.sun.org.apache.xpath.internal.operations.Or;
@@ -28,6 +29,10 @@ public class OrderService {
     public List<Order> queryAllOrders(){
         return orderMapper.queryAllOrders();
     }
+    public List<Order> queryOrderByKey(String key){
+        return orderMapper.queryOrderByKey(key);
+    }
+
     public List<CartItem>queryOrderItemByOrderId(Integer orderId){
         return orderMapper.queryOrderItemByOrderId(orderId);
     }
@@ -37,4 +42,5 @@ public class OrderService {
     public List<Order> queryOrderByUserId(Integer userId){
         return orderMapper.queryOrderByUserId(userId);
     }
+
 }

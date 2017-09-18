@@ -235,3 +235,4 @@ public interface BookMapper {
     @Delete("delete from BookRatings where Id = #{id}")
     void delBookRatingById(@Param("id")Integer id);
 }
+//TODO 推荐图书不完整

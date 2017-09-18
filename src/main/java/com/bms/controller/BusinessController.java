@@ -41,17 +41,15 @@ public class BusinessController {
 //    private Integer userId;
 //    private Book thisBook;//detail页面的书
     @RequestMapping(value={"/","home"})
-    public ModelAndView  home(){
+    public ModelAndView  home(HttpServletRequest request){
         ModelAndView  modelAndView = new ModelAndView();
-
         modelAndView.addObject("popularbooks",bookService.queryBookOrderByClicks(1,5));
         modelAndView.addObject("newbooks",bookService.queryBookOrderByPublishDate(1,5));
-//        modelAndView.addObject("popularbooks",bookService.queryBookInOrder(1,5,"clicks"));
-
-//        modelAndView.addObject("newbooks",bookService.queryBookInOrder(1,5,"publishDate"));
-
         modelAndView.addObject("tags",bookService.queryAllCategories());
         modelAndView.setViewName("home");
+        User user = userService.queryUserByLoginId(request.getRemoteUser());
+        if(user !=null)
+            modelAndView.addObject("role",user.getUserRole());
         return modelAndView;
     }
     @RequestMapping("main")
@@ -64,7 +62,6 @@ public class BusinessController {
             bookList=bookService.queryByTag(tag,pageNum,10);
         }else{
             bookList=bookService.query(pageNum,10);
-
         }
         model.addAttribute("page",new PageInfo<Book>(bookList));
         model.addAttribute("books",bookList);
@@ -72,7 +69,6 @@ public class BusinessController {
         User user = userService.queryUserByLoginId(request.getRemoteUser());
         if(user !=null)
             model.addAttribute("role",user.getUserRole());
-
         return  "main";
     }
     @RequestMapping("/changeorder")
@@ -112,7 +108,7 @@ public class BusinessController {
     }
 
     ////CartItem////////////////////////////////////////////////////////////////////////////////////////////
-        @RequestMapping("addtocart")
+    @RequestMapping("addtocart")
     public ModelAndView addtocart(Model model,Integer bookId,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
@@ -148,12 +144,6 @@ public class BusinessController {
             cartService.delCartItemByUserIdAndBookId(userId,bookId[i]);
         return "redirect:/cart";
     }
-//    @RequestMapping("updatecart")
-//    public String updatecart(HttpServletRequest request, HttpServletResponse response,Integer bookId, String type){
-//        userId = (userId==null?userService.queryUserByLoginId(request.getRemoteUser()).getId():userId);
-//        cartService.adjustCnt(userId,bookId,"up".equals(type));
-//        return "redirect:/cart";
-//    }
     @RequestMapping("confirm")
     public ModelAndView confirm(HttpServletRequest request,Integer[] bookId){
         ModelAndView modelAndView = new ModelAndView();
@@ -163,7 +153,6 @@ public class BusinessController {
         if(URL.indexOf("cart") != -1) {
             //从购物车购买
             List<CartItem> cartItemList = cartService.queryCount(userId);
-
             if (cartItemList != null && bookId != null) {
                 for (int i = 0; i < cartItemList.size(); i++) {
                     for (int j = 0; j < bookId.length; j++) {
@@ -216,12 +205,11 @@ public class BusinessController {
         for(int i = 0;i<order.getItems().size();i++){
             cartService.delCartItemByUserIdAndBookId(userId,order.get(i).getBookId());
         }
-        return "redirect:/main";
+        return "redirect:/main?success";
     }
     @RequestMapping("order")
     public ModelAndView order(HttpServletRequest request) {
         Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
-
         ModelAndView modelAndView = new ModelAndView();
         List<Order>orders = orderService.queryOrderByUserId(userId);
         for(int i = 0;i<orders.size();i++){
@@ -241,15 +229,17 @@ public class BusinessController {
     }
     @RequestMapping(value = "ratebook",method = RequestMethod.POST)
     public ModelAndView doratebook(HttpServletRequest request,Integer bookId,Integer rating,String comment){
+
         Integer userId = userService.queryUserByLoginId(request.getRemoteUser()).getId();
+//        System.out.println("bb"+rating);
         ModelAndView modelAndView = new ModelAndView();
-        bookService.addBookRating(new BookRating(userId,bookId,rating,comment));
-//        modelAndView.addObject("bookId",bookId);
-        modelAndView.setViewName("redirect:/bookdetail?bookId="+bookId);
+        if(rating==null){
+            modelAndView.setViewName("redirect:/ratebook?id="+bookId);
+        }else {
+            bookService.addBookRating(new BookRating(userId,bookId,rating,comment));
+            modelAndView.setViewName("redirect:/bookdetail?bookId="+bookId);
+        }
+//2d        modelAndView.addObject("bookId",bookId);
         return modelAndView;
     }
 }
-
-//
-//购物车到cofirm
-//confirm到add

@@ -245,9 +245,17 @@ public class AdminController {
     }
     ///Order//////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping("ordermanage")
-    public ModelAndView ordermanage(){
+    public ModelAndView ordermanage(String  key){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("orders",orderService.queryAllOrders());
+        if(key == null)
+            modelAndView.addObject("orders",orderService.queryAllOrders());
+        else{
+            User user= userService.queryUserByLoginId(key);
+//            System.out.println(userId);
+            if(user != null)
+                modelAndView.addObject("orders",orderService.queryOrderByKey(user.getId().toString()));
+            else modelAndView.addObject("orders",orderService.queryOrderByKey(key));
+        }
         modelAndView.setViewName("/admin/order/ordermanage");
         return modelAndView;
     }

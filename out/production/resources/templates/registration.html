@@ -25,7 +25,7 @@
                 <h2 class="text-center">注册</h2>
                 <br>
                 <div class="form-group">
-                    <h4>LoginId</h4>
+                    <h4>登录名</h4>
                     <label th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}"
                            class="validation-message"></label>
                     <input type="text" th:field="*{loginId}" placeholder="LoginId"
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="form-group">
-                    <h4>Password</h4>
+                    <h4>密码</h4>
                     <label th:if="${#fields.hasErrors('loginPwd')}" th:errors="*{loginPwd}"
                            class="validation-message"></label>
                     <input type="text" th:field="*{loginPwd}"
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="form-group">
-                    <h4>PasswordComfirm</h4>
+                    <h4>确认密码</h4>
                     <label th:if="${#fields.hasErrors('pwdComfirm')}" th:errors="*{pwdComfirm}"
                            class="validation-message"></label>
                     <input type="text" th:field="*{pwdComfirm}"
@@ -49,28 +49,28 @@
                 </div>
 
                 <div class="form-group">
-                    <h4>Address</h4>
+                    <h4>地址</h4>
                     <label th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
                            class="validation-message"></label>
                     <input type="text" th:field="*{address}" placeholder="address"
                            class="form-control" />
                 </div>
                 <div class="form-group">
-                    <h4>Email</h4>
+                    <h4>邮箱</h4>
                     <label th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
                            class="validation-message"></label>
                     <input type="text" th:field="*{mail}" placeholder="Email"
                            class="form-control" />
                 </div>
                 <div class="form-group">
-                    <h4>Name</h4>
+                    <h4>姓名</h4>
                     <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
                            class="validation-message"></label>
                     <input type="text" th:field="*{name}" placeholder="Name"
                            class="form-control" />
                 </div>
                 <div class="form-group">
-                    <h4>Telephone</h4>
+                    <h4>电话号码</h4>
                     <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"
                            class="validation-message"></label>
                     <input type="text" th:field="*{phone}" placeholder="telephone"
@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="form-group">
-                    <h4>Birthday</h4>
+                    <h4>出生日期</h4>
                     <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                         <input class="form-control" size="16" type="text" th:field="*{birthday}" readonly>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>

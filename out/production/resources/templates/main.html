@@ -26,6 +26,9 @@
                     ajaxPost(t,$(this).attr('name'));
                 });
             }
+            if(window.location.search.substr(1) == 'success'){
+                alert("订单添加成功");
+            }
             function ajaxPost(id,type){
                 var formData = {
                     bookId: id,
@@ -51,7 +54,7 @@
                         console.log(result);
                     },
                     error : function(e) {
-                        alert("Error!")
+                        alert("请登录")
                         console.log("ERROR: ", e)
                     }
                 });
@@ -106,6 +109,9 @@
                 <br>
             </div>
         </ul>
+        <div th:unless="${not #lists.isEmpty(books)}">
+            <h3>没有查询到相关书籍</h3>
+        </div>
     </div>
     <div class="col-md-4 sidebar">
         <div th:replace="common/layout::side" class="affix"></div>

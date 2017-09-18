@@ -20,7 +20,7 @@ public interface OrderMapper {
             @Result(column = "NextId",property = "")
     })
     Integer getNextOrdersId();
-    @Select("select * from Orders")
+    @Select("select * from Orders order by OrderDate desc")
     @Results(value = {
             @Result(id=true,column = "Id",property = "id"),
             @Result(column = "OrderDate",property = "orderDate"),
@@ -28,7 +28,15 @@ public interface OrderMapper {
             @Result(column = "TotalPrice",property = "totalPrice")
     })
     List<Order>queryAllOrders();
-    @Select("select * from Orders where Id = #{id}")
+    @Select("select * from Orders where UserId=#{key} or Id = #{key} order by OrderDate desc")
+    @Results(value = {
+            @Result(id=true,column = "Id",property = "id"),
+            @Result(column = "OrderDate",property = "orderDate"),
+            @Result(column = "UserId",property = "userId"),
+            @Result(column = "TotalPrice",property = "totalPrice")
+    })
+    List<Order>queryOrderByKey(@Param("key")String key);
+    @Select("select * from Orders where Id = #{id} order by OrderDate desc")
     @Results(value = {
             @Result(id=true,column = "Id",property = "id"),
             @Result(column = "OrderDate",property = "orderDate"),
@@ -37,7 +45,7 @@ public interface OrderMapper {
     })
     Order queryOrderById(@Param("id")Integer id);
 
-    @Select("select * from Orders where UserId = #{userId}")
+    @Select("select * from Orders where UserId = #{userId} order by OrderDate desc")
     @Results(value = {
             @Result(id=true,column = "Id",property = "id"),
             @Result(column = "OrderDate",property = "orderDate"),
@@ -53,7 +61,6 @@ public interface OrderMapper {
             @Result(column = "ISBN",property = "ISBN"),
             @Result(column = "PublishDate",property = "publishDate"),
             @Result(column = "Price",property = "unitPrice"),
-
             @Result(column = "PublishHouse",property = "publishHouse"),
             @Result(column = "Title",property = "title")
     })
